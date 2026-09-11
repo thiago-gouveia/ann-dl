@@ -1,6 +1,6 @@
 ---
 exercise: data
-ai_use: "Claude (Anthropic) generated the code, the figures and a draft of the analyses; I reviewed everything and understand all of it."
+ai_use: "Claude (Anthropic) was used for the code, the figures and a draft of the analyses."
 ---
 
 # Data — Data Preparation and Analysis for Neural Networks
