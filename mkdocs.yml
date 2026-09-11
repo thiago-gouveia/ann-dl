@@ -1,20 +1,12 @@
-site_name: Template de Entrega
-site_author: Sandmann, H.
-site_url: https://hsandmann.github.io/documentation.template
-repo_url: https://github.com/hsandmann/documentation.template
-repo_name: github/documentation.template
+site_name: Artificial Neural Networks & Deep Learning
+site_author: Thiago Gouveia
+site_url: https://thiago-gouveia.github.io/ann-dl
+repo_url: https://github.com/thiago-gouveia/ann-dl
+repo_name: thiago-gouveia/ann-dl
 
 theme:
   name: material
   palette:
-    # primary: grey
-    # Light mode
-    - scheme: default
-      primary: grey
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
       primary: grey
@@ -24,7 +16,7 @@ theme:
 
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default 
+      scheme: default
       primary: grey
       toggle:
         icon: material/toggle-switch-off-outline
@@ -49,7 +41,6 @@ theme:
     - navigation.tracking
     - navigation.expand
   icon:
-    # logo: assets/images/devops
     admonition:
       note: fontawesome/solid/note-sticky
       abstract: fontawesome/solid/book
@@ -77,11 +68,12 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji 
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       url_download: true
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -94,7 +86,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
-      custom_checkbox: true  
+      custom_checkbox: true
   - footnotes
   - pymdownx.critic
   - pymdownx.caret
@@ -103,14 +95,15 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.blocks.caption
   - tables
-      
+
 plugins:
   - glightbox
   - git-revision-date-localized:
       enable_creation_date: true
   - git-authors
   - git-committers:
-      repository: hsandmann/documentation.template
+      enabled: !ENV [CI, false]
+      repository: thiago-gouveia/ann-dl
       branch: main
   - search
   - badges
@@ -123,29 +116,16 @@ plugins:
       prompt_literal_start:
         - "$"
         - ">"
-
-# mkdocs-jupyter
   - mkdocs-jupyter:
       execute: false
       allow_errors: false
 
 extra_javascript:
-  - https://unpkg.com/mathjax/es5/tex-mml-chtml.js
-  # - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-  - https://fastly.jsdelivr.net/npm/jquery/dist/jquery.min.js
-  - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
-
-  # Para a implementação do mkdocs-jupyter
   - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
   - Home: index.md
-  - This documentation: ./thisdocumentation/index.md
-  - Roteiros:
-    - Roteiro 1: ./roteiro1/index.md
-    - Roteiro 2: ./roteiro2/index.md
-    - Roteiro 3: ./roteiro3/index.md
-    - Roteiro 4: ./roteiro4/index.md
-    - Notebook 1: ./notebook1/ex1_data.ipynb
-  - Projeto: ./projeto/index.md
+  - Exercises:
+    - Data: exercises/data/index.md
+  - Projects: projects/index.md
