@@ -117,6 +117,7 @@ plugins:
         - "$"
         - ">"
   - mkdocs-jupyter:
+      include: ["*.ipynb"]  # keep code/*.py as plain source files
       execute: false
       allow_errors: false
 
