@@ -129,4 +129,5 @@ nav:
   - Home: index.md
   - Exercises:
     - Data: exercises/data/index.md
+    - Perceptron: exercises/perceptron/index.md
   - Projects: projects/index.md
