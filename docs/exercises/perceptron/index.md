@@ -47,9 +47,9 @@ Separable data: the case the perceptron was designed for.
 
 ### A — Generate the data
 
-1000 points per class, drawn from $\mathcal{N}(\boldsymbol{\mu}_k, \Sigma)$ with
-$\boldsymbol{\mu}_0 = [1.5, 1.5]$, $\boldsymbol{\mu}_1 = [5, 5]$ and
-$\Sigma = [[0.5, 0], [0, 0.5]]$. The means are $\lVert \boldsymbol{\mu}_1 - \boldsymbol{\mu}_0 \rVert = 4.95$
+1000 points per class, drawn from $\mathcal{N}(\mu_k, \Sigma)$ with
+$\mu_0 = [1.5, 1.5]$, $\mu_1 = [5, 5]$ and
+$\Sigma = [[0.5, 0], [0, 0.5]]$. The means are $\lVert \mu_1 - \mu_0 \rVert = 4.95$
 apart while each cloud has $\sigma = \sqrt{0.5} = 0.71$ per axis, so the clouds are separated by an
 empty corridor — measured along the direction joining the means, the gap between the two projections
 is $2\gamma = 0.386$.
@@ -201,8 +201,8 @@ Overlapping data: the case the perceptron cannot solve.
 
 ### A — Generate the data
 
-Same generator, 1000 points per class, now with $\boldsymbol{\mu}_0 = [3, 3]$,
-$\boldsymbol{\mu}_1 = [4, 4]$ and $\Sigma = [[1.5, 0], [0, 1.5]]$ — the means are
+Same generator, 1000 points per class, now with $\mu_0 = [3, 3]$,
+$\mu_1 = [4, 4]$ and $\Sigma = [[1.5, 0], [0, 1.5]]$ — the means are
 $\sqrt{2} = 1.41$ apart while each cloud spreads $\sigma = 1.22$ per axis, so the clouds sit almost
 on top of each other and **no straight line separates them**.
 
