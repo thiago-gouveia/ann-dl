@@ -290,7 +290,7 @@ every possible line misclassifies at least ~575 points, so there is always a mis
 every reaction moves the weights — the current accuracy in Figure 6 oscillates in a narrow band
 around 0.50 forever and the updates per epoch never decay (289 updates spread over all 100 epochs).
 
-The perceptron convergence theorem guarantees that **if** there exists $(\mathbf{w}^\*, b^\*)$ that
+The perceptron convergence theorem guarantees that **if** there exists $(\mathbf{w}^*, b^*)$ that
 classifies every sample correctly with a margin $\gamma > 0$, then training makes at most
 $(R / \gamma)^2$ mistakes and halts. Its assumption is **linear separability**, and that is exactly
 what this dataset violates: the classes overlap, so no $\gamma > 0$ exists, the bound
