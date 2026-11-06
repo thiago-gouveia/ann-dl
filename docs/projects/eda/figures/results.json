@@ -690,6 +690,89 @@
    "pearson": -0.259
   }
  ],
+ "simpson": [
+  {
+   "a": "arrival_date_week_number",
+   "b": "arrival_month_num",
+   "all": 0.995,
+   "City Hotel": 0.995,
+   "Resort Hotel": 0.995,
+   "max |diff|": 0.0
+  },
+  {
+   "a": "previous_bookings_not_canceled",
+   "b": "is_repeated_guest",
+   "all": 0.805,
+   "City Hotel": 0.872,
+   "Resort Hotel": 0.745,
+   "max |diff|": 0.067
+  },
+  {
+   "a": "arrival_date_year",
+   "b": "arrival_date_week_number",
+   "all": -0.516,
+   "City Hotel": -0.511,
+   "Resort Hotel": -0.523,
+   "max |diff|": 0.007
+  },
+  {
+   "a": "arrival_date_year",
+   "b": "arrival_month_num",
+   "all": -0.501,
+   "City Hotel": -0.494,
+   "Resort Hotel": -0.51,
+   "max |diff|": 0.009
+  },
+  {
+   "a": "previous_bookings_not_canceled",
+   "b": "has_company",
+   "all": 0.424,
+   "City Hotel": 0.537,
+   "Resort Hotel": 0.315,
+   "max |diff|": 0.113
+  },
+  {
+   "a": "lead_time",
+   "b": "stays_in_week_nights",
+   "all": 0.418,
+   "City Hotel": 0.29,
+   "Resort Hotel": 0.587,
+   "max |diff|": 0.169
+  },
+  {
+   "a": "stays_in_weekend_nights",
+   "b": "stays_in_week_nights",
+   "all": 0.326,
+   "City Hotel": 0.081,
+   "Resort Hotel": 0.604,
+   "max |diff|": 0.278
+  },
+  {
+   "a": "lead_time",
+   "b": "stays_in_weekend_nights",
+   "all": 0.297,
+   "City Hotel": 0.163,
+   "Resort Hotel": 0.483,
+   "max |diff|": 0.186
+  },
+  {
+   "a": "is_repeated_guest",
+   "b": "has_company",
+   "all": 0.364,
+   "City Hotel": 0.509,
+   "Resort Hotel": 0.205,
+   "max |diff|": 0.159
+  },
+  {
+   "a": "stays_in_week_nights",
+   "b": "adr",
+   "all": 0.085,
+   "City Hotel": 0.036,
+   "Resort Hotel": 0.213,
+   "max |diff|": 0.128
+  }
+ ],
+ "simpson_sign_flips": [],
  "cat_target": {
   "deposit_type": {
    "Refundable": {
@@ -1563,16 +1646,81 @@
     "num_log__days_in_waiting_list": 0.193,
     "num_lin__adults": -0.185
    }
+  },
+  "n_zero_variance": 10,
+  "n_components": 192
+ },
+ "projection_eval": {
+  "PCA (2 PCs)": {
+   "trust_k5": 0.7503,
+   "trust_k30": 0.7538,
+   "silhouette_target": -0.0135,
+   "knn15_acc": 0.705,
+   "dbscan_groups": 5
+  },
+  "tsne_10": {
+   "trust_k5": 0.9905,
+   "trust_k30": 0.954,
+   "silhouette_target": 0.0272,
+   "knn15_acc": 0.764,
+   "dbscan_groups": 9
+  },
+  "tsne_30": {
+   "trust_k5": 0.9899,
+   "trust_k30": 0.9595,
+   "silhouette_target": 0.0134,
+   "knn15_acc": 0.7596,
+   "dbscan_groups": 7
+  },
+  "tsne_100": {
+   "trust_k5": 0.9875,
+   "trust_k30": 0.9612,
+   "silhouette_target": 0.0125,
+   "knn15_acc": 0.765,
+   "dbscan_groups": 5
+  },
+  "umap_5": {
+   "trust_k5": 0.9719,
+   "trust_k30": 0.9449,
+   "silhouette_target": 0.0351,
+   "knn15_acc": 0.7674,
+   "dbscan_groups": 8
+  },
+  "umap_15": {
+   "trust_k5": 0.9624,
+   "trust_k30": 0.9503,
+   "silhouette_target": 0.0299,
+   "knn15_acc": 0.7622,
+   "dbscan_groups": 8
+  },
+  "umap_100": {
+   "trust_k5": 0.9485,
+   "trust_k30": 0.9391,
+   "silhouette_target": 0.0403,
+   "knn15_acc": 0.7496,
+   "dbscan_groups": 7
+  },
+  "tsne_30 (shuffled)": {
+   "trust_k5": 0.9767,
+   "trust_k30": 0.9428,
+   "silhouette_target": -0.0057,
+   "knn15_acc": 0.7138,
+   "dbscan_groups": 9
+  },
+  "umap_15 (shuffled)": {
+   "trust_k5": 0.9163,
+   "trust_k30": 0.9084,
+   "silhouette_target": -0.0078,
+   "knn15_acc": 0.7114,
+   "dbscan_groups": 7
   }
  },
- "projection_knn15_acc": {
-  "pca_2d": 0.705,
-  "tsne_30": 0.7596,
-  "tsne_100": 0.765,
-  "umap_15": 0.7622,
-  "umap_100": 0.7496,
-  "full_192d": 0.7868,
-  "majority": 0.7248
+ "full_dim_knn15_acc": 0.7868,
+ "majority_acc": 0.7248,
+ "has_transform": {
+  "PCA": true,
+  "UMAP": true,
+  "t-SNE": false
  },
  "umap15_groups": [
   {
@@ -1753,6 +1901,50 @@
   }
  ],
  "umap15_noise_points": 33,
+ "stability_max_group_purity": {
+  "tsne_10": {
+   "previous_cancellations": 1.0,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.882
+  },
+  "tsne_30": {
+   "previous_cancellations": 1.0,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.817
+  },
+  "tsne_100": {
+   "previous_cancellations": 0.02,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.041
+  },
+  "umap_5": {
+   "previous_cancellations": 1.0,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.835
+  },
+  "umap_15": {
+   "previous_cancellations": 1.0,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.813
+  },
+  "umap_100": {
+   "previous_cancellations": 1.0,
+   "children": 1.0,
+   "babies": 1.0,
+   "days_in_waiting_list": 1.0,
+   "is_repeated_guest": 0.835
+  }
+ },
  "rate_if_positive": {
   "required_car_parking_spaces": {
    "rate": 0.0,

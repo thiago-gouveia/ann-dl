@@ -23,7 +23,7 @@ for the neural network of the next deliverable; no model is trained here.
 
 ```shell
 pip install -r requirements.txt
-python docs/projects/eda/code/eda.py     # ~1 min; runs from a clean clone (the CSV is in data/)
+python docs/projects/eda/code/eda.py     # ~2 min; runs from a clean clone (the CSV is in data/)
 ```
 
 `random_state = 42` everywhere (split, samples, t-SNE, UMAP). Two consecutive runs produce an
@@ -315,6 +315,25 @@ never canceled (few red points at `is_repeated_guest = 1`); (right) longer stays
 ahead (ρ = 0.418), and canceled bookings are spread over the whole range, concentrated at larger lead
 times — neither feature separates the classes on its own.
 
+**Simpson's paradox check.** A correlation over the pooled data can hide, or even reverse, the relation
+inside each group. The two hotels are very different businesses (Figures 9–11), so the same Spearman
+coefficients were recomputed inside each hotel:
+
+--8<-- "docs/projects/eda/figures/tables.txt:t6b"
+
+/// caption
+**Table 6b** — Spearman ρ on all training bookings and inside each hotel: the 6 strongest pairs, then the
+4 pairs whose value changes most between the pooled data and a hotel.
+///
+
+No pair with |ρ| > 0.1 changes sign between the hotels, so no conclusion above is reversed, and the
+redundancy of week number × month holds in both (0.995). But some pooled values are an **average of two
+different behaviours**: weekend × week nights is 0.326 overall, **0.081 in the City Hotel** and **0.604 in
+the Resort**; lead time × week nights is 0.290 vs 0.587. In the Resort, long holiday stays cover both
+weekdays and weekends and are booked early; in the City Hotel, short stays are either weekday or weekend.
+**Conclusion:** the relations between the stay features depend on the hotel — one more reason to keep
+`hotel` as an input next to them, so the network can learn hotel-specific patterns.
+
 ### B — Categorical × target
 
 ![Figure 8](figures/fig08_cat_target.png)
@@ -457,7 +476,10 @@ independent one-hot indicators. Reading the loadings:
 
 Both components are made of the 13 standardised numerical columns: a one-hot column has variance
 p(1−p) ≤ 0.25, against 1 for a standardised feature, so PCA on this mixed matrix is dominated by the
-numerical part. In the PC1–PC2 plane the classes overlap almost completely.
+numerical part. Also, the last **10 of the 192 components have exactly zero variance**: inside each of the 10
+one-hot blocks the columns sum to 1, so each block adds one exact linear dependency (the "dummy-variable
+trap"). It is harmless for PCA and for a network with regularisation, but it means the matrix has only 182
+independent directions. In the PC1–PC2 plane the classes overlap almost completely.
 
 ```python
 --8<-- "docs/projects/eda/code/eda.py:manifold"
@@ -466,13 +488,13 @@ numerical part. In the PC1–PC2 plane the classes overlap almost completely.
 ![Figure 13](figures/fig13_tsne.png)
 
 /// caption
-**Figure 13** — t-SNE of the 5 000-booking sample, perplexity 30 and 100.
+**Figure 13** — t-SNE of the 5 000-booking sample, perplexity 10, 30 and 100.
 ///
 
 ![Figure 14](figures/fig14_umap.png)
 
 /// caption
-**Figure 14** — UMAP of the same sample, `n_neighbors` 15 and 100.
+**Figure 14** — UMAP of the same sample, `n_neighbors` 5, 15 and 100 (`min_dist = 0.1`).
 ///
 
 **What the islands are.** To read the nonlinear maps instead of guessing, DBSCAN was run on the 2-D UMAP
@@ -500,21 +522,68 @@ a booking several standard deviations away from the 95–99% of zeros, so it for
 The first version of this analysis had one more island — **409 bookings, 0% canceled**, all with
 `required_car_parking_spaces > 0` — which is how the parking leak of section 1.B was found.
 
-**Comparison.**
+**Evaluating the maps, and a control.** A map can look clustered without saying anything about the data,
+so each map is measured on two separate questions, and the same procedure is run on a **control**: the
+sample with every column shuffled independently (each feature keeps its distribution, but the relations
+between features and with the target are destroyed).
 
+```python
+--8<-- "docs/projects/eda/code/eda.py:evaluate"
+```
+
+--8<-- "docs/projects/eda/figures/tables.txt:t9"
+
+/// caption
+**Table 9** — Every 2-D map of the 5 000-booking sample: trustworthiness (are the neighbours in the map
+neighbours in the 192-D space? 1 = perfect) at k = 5 and k = 30; separation of the target (silhouette with
+the target labels, and 15-NN accuracy, 5-fold CV); and the number of groups DBSCAN finds. Reference: the
+majority class gives 0.725 accuracy, a 15-NN on the full 192 columns 0.787.
+///
+
+![Figure 15](figures/fig15_control.png)
+
+/// caption
+**Figure 15** — Control: t-SNE (perplexity 30) and UMAP (`n_neighbors` 15) of the same sample after shuffling
+every column independently.
+///
+
+**Comparison of the three methods.**
+
+- **Neighbourhoods:** t-SNE (trustworthiness 0.988–0.991 at k = 5) and UMAP (0.949–0.972) keep the local
+  neighbours; PCA does not (0.750). PCA keeps the directions of largest *global* variance, which here are
+  the numerical features, and squashes everything that differs by one-hot indicators on top of each other.
 - **What the nonlinear maps reveal that PCA does not:** sub-populations with very different cancellation
-  rates (past cancellers 70%, loyal customers 4%, Direct 13%) that PCA mixes in one cloud, because they
-  differ by binary/count indicators that carry little variance. A 15-nearest-neighbour classifier on
-  each 2-D map (5-fold CV on the sample) measures how much of the target the map keeps: **PCA 70.5%**
-  (below the 72.5% of always predicting "not canceled"), **t-SNE 76.0% / 76.5%** (perplexity 30 / 100),
-  **UMAP 76.2% / 75.0%** (`n_neighbors` 15 / 100), against **78.7%** on the full 192 columns.
-- **Effect of the parameters:** small perplexity / `n_neighbors` fragment the data into many local islands;
-  perplexity 100 and `n_neighbors` 100 give fewer, bigger groups and a more global layout, at a slightly
-  lower separation for UMAP.
-- **Limits:** the sizes of the islands and the distances between them have no direct meaning in t-SNE
-  or UMAP (an island's area does not say how many bookings or how different they are), so the reading
-  above only uses *which* points are together. No 2-D map separates the classes: even the best keeps
-  canceled and non-canceled bookings mixed inside each island — the decision needs many features at once,
+  rates (Table 7: past cancellers 70%, loyal customers 4%, Direct bookings 13%) that PCA mixes in one cloud.
+  The target is better separated in the nonlinear maps: 15-NN accuracy 0.750–0.767 against **0.705 for PCA**,
+  below even the majority class (0.725).
+- **The control changes how the islands must be read.** The shuffled data also form **7–9 DBSCAN groups**
+  with trustworthiness 0.91–0.98 (Figure 15): the *number* of islands is produced by the distributions of the
+  features alone — zero-inflated counts and one-hot columns, where a single non-zero value puts a booking far
+  from all the zeros. So the existence of islands is **not** evidence of structure. What the real maps have and
+  the control does not is the relation with the target: 15-NN accuracy 0.760 (t-SNE 30) and 0.762 (UMAP 15)
+  vs 0.714 and 0.711 on shuffled data (no better than the majority class), and silhouette with the target
+  0.013–0.040 vs −0.006/−0.008. The reading of Table 7 is therefore about *which* bookings fall together and
+  their cancellation rates, which the control does not reproduce, not about how many islands there are.
+- **Effect of the parameters (3 values each):** small perplexity / `n_neighbors` keep the closest neighbours
+  best (t-SNE trustworthiness at k = 5: 0.991 → 0.988; UMAP: 0.972 → 0.949) and fragment the data into more
+  groups (t-SNE 9 → 7 → 5, UMAP 8 → 8 → 7 DBSCAN groups); large values give fewer, bigger groups and a more
+  global layout. Table 10 checks which groups survive every value: a group made 100% of bookings with
+  children, with babies, or on the waiting list appears in **all six maps**; the previous-cancellations group in
+  5 of 6 (it merges into a larger group with t-SNE perplexity 100); repeated guests form a ~80%-pure group in 5
+  of 6. Those are the stable findings; the rest of the layout changes with the parameter. The separation of the target barely moves (0.750–0.767),
+  so no parameter value "reveals" the classes: it is not a reason to choose one.
+--8<-- "docs/projects/eda/figures/tables.txt:t10"
+
+/// caption
+**Table 10** — Stability across parameters: for each map and each rare non-zero value, the share of bookings
+with that value in the most homogeneous DBSCAN group (1.00 = some group is made only of those bookings).
+///
+
+- **Limits:** the sizes of the islands and the distances between them have no direct meaning in t-SNE or UMAP,
+  so the reading above only uses *which* points are together. And **t-SNE cannot place new data**: it has no
+  `transform` (`has_transform` = PCA True, UMAP True, t-SNE False), so it can only be used to explore the
+  training set, never inside a model or to project the test set. PCA and UMAP learn a mapping that can be
+  applied to new bookings. No 2-D map separates the classes: the decision needs many features at once,
   which is the job of the network.
 
 ### C — Pipeline
@@ -560,8 +629,9 @@ and `X_test` only goes through `transform`.
 4. **Hotel × month interactions** in both the cancellation rate and the price (Figures 9 and 11).
 5. **Feature shapes:** zero-inflated counts and two long-tail categorical features (Figures 2, 3, 5),
    handled by clipping + `log1p` + standardisation and one-hot with an infrequent bucket.
-6. **No 2-D view separates the classes** (Figures 12–14): the best 2-D map keeps 76% 15-NN accuracy
-   vs 72.5% for the majority class, the full 192 columns 78.7%.
+6. **No 2-D view separates the classes** (Figures 12–15, Table 9): the best 2-D map keeps 76.7% 15-NN
+   accuracy vs 72.5% for the majority class (78.7% on the full 192 columns), and the shuffled control shows
+   that the islands of t-SNE / UMAP come from the shape of the features, not from groups of bookings.
 
 **Risks for modeling, and the plan:**
 

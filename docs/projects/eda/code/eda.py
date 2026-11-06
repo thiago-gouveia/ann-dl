@@ -323,6 +323,23 @@ results["corr_top"] = [{"a": a, "b": b, "spearman": r(s, 3), "pearson": r(p, 3)}
                        for (a, b), (s, p) in pairs.head(10).iterrows()]
 table("Table 6 — the 10 most correlated numerical pairs (training set)", pairs.head(10), ".3f")
 
+# Simpson's paradox check: the same correlations computed inside each hotel. A pair whose sign or
+# strength changes between the hotels is driven by the mix of the two hotels, not by the bookings.
+by_hotel = {h: corr_df[train["hotel"] == h].corr(method="spearman") for h in ["City Hotel", "Resort Hotel"]}
+simpson = pairs[["spearman"]].rename(columns={"spearman": "all"})
+for h, c in by_hotel.items():
+    simpson[h] = [c.loc[a, b] for a, b in simpson.index]
+simpson["max |diff|"] = (simpson[["City Hotel", "Resort Hotel"]].sub(simpson["all"], axis=0)).abs().max(1)
+simpson = simpson.dropna()
+simpson_top = pd.concat([simpson.head(6),
+                         simpson.drop(simpson.head(6).index).sort_values("max |diff|", ascending=False).head(4)])
+table("Table 6b — Spearman by hotel for the top pairs and the 4 pairs that change most", simpson_top, ".3f")
+results["simpson"] = [{"a": a, "b": b, **{k: r(v, 3) for k, v in row.items()}}
+                      for (a, b), row in simpson_top.iterrows()]
+results["simpson_sign_flips"] = [f"{a} x {b}" for (a, b), row in simpson.iterrows()
+                                 if np.sign(row["City Hotel"]) != np.sign(row["Resort Hotel"])
+                                 and min(abs(row["City Hotel"]), abs(row["Resort Hotel"])) > 0.1]
+
 fig, ax = plt.subplots(figsize=(12, 10))
 mask = np.triu(np.ones_like(spear, dtype=bool), 1)
 sns.heatmap(spear, mask=mask, cmap="RdBu_r", vmin=-1, vmax=1, annot=True, fmt=".2f",
@@ -510,7 +527,10 @@ top_load = {pc: load[pc].reindex(load[pc].abs().sort_values(ascending=False).ind
             .to_dict() for pc in ["PC1", "PC2"]}
 results["pca"] = {"pc1": r(pca.explained_variance_ratio_[0]), "pc2": r(pca.explained_variance_ratio_[1]),
                   "pc1_pc2": r(cum[1]), "n_for_80": int(np.searchsorted(cum, .80) + 1),
-                  "n_for_95": int(np.searchsorted(cum, .95) + 1), "top_loadings": top_load}
+                  "n_for_95": int(np.searchsorted(cum, .95) + 1), "top_loadings": top_load,
+                  # each one-hot block sums to 1 -> one exactly linear dependency per block
+                  "n_zero_variance": int((pca.explained_variance_ratio_ < 1e-10).sum()),
+                  "n_components": int(len(cum))}
 
 # stratified sample of the training set for the 2-D projections
 idx_s, _ = train_test_split(np.arange(len(Xt_train)), train_size=5000, stratify=y_train,
@@ -559,43 +579,83 @@ def scatter_panel(ax, Z, title, xl, yl):
 # --8<-- [start:manifold]
 import umap  # noqa: E402
 
+PERPLEXITIES, NEIGHBORS = (10, 30, 100), (5, 15, 100)   # 3 values each, to look for what is stable
 emb = {}
-for perp in (30, 100):
+for perp in PERPLEXITIES:
     emb[f"tsne_{perp}"] = TSNE(n_components=2, perplexity=perp, init="pca", random_state=SEED
                                ).fit_transform(Xs)
-for nn in (15, 100):
+for nn in NEIGHBORS:
     emb[f"umap_{nn}"] = umap.UMAP(n_neighbors=nn, min_dist=0.1, random_state=SEED
                                   ).fit_transform(Xs)
 # --8<-- [end:manifold]
 
-fig, axes = plt.subplots(1, 2, figsize=(13, 5.5))
-for ax, perp in zip(axes, (30, 100)):
+fig, axes = plt.subplots(1, 3, figsize=(19, 5.5))
+for ax, perp in zip(axes, PERPLEXITIES):
     scatter_panel(ax, emb[f"tsne_{perp}"], f"t-SNE, perplexity = {perp}", "t-SNE 1", "t-SNE 2")
 fig.suptitle("Figure 13 — t-SNE of 5 000 training bookings (stratified sample), coloured by target")
 fig.tight_layout()
 save(fig, "fig13_tsne.png")
 
-fig, axes = plt.subplots(1, 2, figsize=(13, 5.5))
-for ax, nn in zip(axes, (15, 100)):
+fig, axes = plt.subplots(1, 3, figsize=(19, 5.5))
+for ax, nn in zip(axes, NEIGHBORS):
     scatter_panel(ax, emb[f"umap_{nn}"], f"UMAP, n_neighbors = {nn}", "UMAP 1", "UMAP 2")
 fig.suptitle("Figure 14 — UMAP of the same 5 000 training bookings, coloured by target")
 fig.tight_layout()
 save(fig, "fig14_umap.png")
 
-
-# How well does each 2-D map separate the classes? 15-NN accuracy inside the sample (5-fold CV).
+# --8<-- [start:evaluate]
+from sklearn.cluster import DBSCAN  # noqa: E402
+from sklearn.manifold import trustworthiness  # noqa: E402
+from sklearn.metrics import silhouette_score  # noqa: E402
 from sklearn.model_selection import cross_val_score  # noqa: E402
 from sklearn.neighbors import KNeighborsClassifier  # noqa: E402
 
-knn = {k: r(cross_val_score(KNeighborsClassifier(15), Z, ys, cv=5).mean())
-       for k, Z in [("pca_2d", Z_pca)] + list(emb.items())}
-knn[f"full_{Xs.shape[1]}d"] = r(cross_val_score(KNeighborsClassifier(15), Xs, ys, cv=5).mean())
-knn["majority"] = r(1 - ys.mean())
-results["projection_knn15_acc"] = knn
+
+def evaluate_map(X_high, Z):
+    """Two separate questions about a 2-D map Z of X_high:
+    - is the neighbourhood preserved?  trustworthiness at k = 5 (local) and k = 30 (wider), in [0, 1]
+    - is the TARGET separated?         silhouette with the target labels, and 15-NN accuracy (5-fold CV)
+    plus the number of groups DBSCAN finds on the standardised map (how 'clustered' it looks)."""
+    Zs = (Z - Z.mean(0)) / Z.std(0)
+    return {"trust_k5": r(trustworthiness(X_high, Z, n_neighbors=5)),
+            "trust_k30": r(trustworthiness(X_high, Z, n_neighbors=30)),
+            "silhouette_target": r(silhouette_score(Z, ys)),
+            "knn15_acc": r(cross_val_score(KNeighborsClassifier(15), Z, ys, cv=5).mean()),
+            "dbscan_groups": int(len(set(DBSCAN(eps=0.15, min_samples=20).fit_predict(Zs)) - {-1}))}
+
+
+evals = {name: evaluate_map(Xs, Z) for name, Z in [("PCA (2 PCs)", Z_pca)] + list(emb.items())}
+
+# Control: shuffle every column independently. Each feature keeps its distribution (same zeros,
+# same tails) but the relations between features — and with the target — are destroyed.
+rng = np.random.default_rng(SEED)
+Xs_shuffled = np.column_stack([rng.permutation(col) for col in Xs.T])
+control = {"tsne_30 (shuffled)": TSNE(n_components=2, perplexity=30, init="pca", random_state=SEED
+                                      ).fit_transform(Xs_shuffled),
+           "umap_15 (shuffled)": umap.UMAP(n_neighbors=15, min_dist=0.1, random_state=SEED
+                                           ).fit_transform(Xs_shuffled)}
+evals.update({name: evaluate_map(Xs_shuffled, Z) for name, Z in control.items()})
+
+# Can the map place NEW bookings (e.g. the test set)? PCA and UMAP learn a mapping; t-SNE does not.
+has_transform = {"PCA": hasattr(pca, "transform"), "UMAP": hasattr(umap.UMAP(), "transform"),
+                 "t-SNE": hasattr(TSNE(), "transform")}
+# --8<-- [end:evaluate]
+results["projection_eval"] = evals
+results["full_dim_knn15_acc"] = r(cross_val_score(KNeighborsClassifier(15), Xs, ys, cv=5).mean())
+results["majority_acc"] = r(1 - ys.mean())
+results["has_transform"] = has_transform
+eval_tab = pd.DataFrame(evals).T
+table("Table 9 — evaluation of every 2-D map (5 000 training bookings)", eval_tab, ".3f")
+
+fig, axes = plt.subplots(1, 2, figsize=(13, 5.5))
+for ax, (name, Z) in zip(axes, control.items()):
+    scatter_panel(ax, Z, f"{name}: {evals[name]['dbscan_groups']} DBSCAN groups, "
+                         f"15-NN acc. {evals[name]['knn15_acc']:.3f}", "dimension 1", "dimension 2")
+fig.suptitle("Figure 15 — control: the same maps on the sample with every column shuffled independently")
+fig.tight_layout()
+save(fig, "fig15_control.png")
 # What are the UMAP islands? DBSCAN on the 2-D UMAP (n_neighbors = 15) map, then describe each
 # group by its size, cancellation rate and the dominant value of a few categorical features.
-from sklearn.cluster import DBSCAN  # noqa: E402
-
 lab = DBSCAN(eps=0.6, min_samples=20).fit_predict(emb["umap_15"])
 Xs_raw = X_train_all.iloc[idx_s].reset_index(drop=True)
 groups = []
@@ -615,6 +675,21 @@ for g in sorted(set(lab) - {-1}):
 groups.sort(key=lambda d: -d["n"])
 results["umap15_groups"] = groups
 results["umap15_noise_points"] = int((lab == -1).sum())
+# Stability: in every map (3 t-SNE, 3 UMAP), is there a DBSCAN group made (>= 90%) of the bookings
+# with each rare non-zero value? If yes, that group is a stable finding, not a parameter artefact.
+STAB_FLAGS = ["previous_cancellations", "children", "babies", "days_in_waiting_list", "is_repeated_guest"]
+stability = {}
+for name, Z in emb.items():
+    Zs = (Z - Z.mean(0)) / Z.std(0)
+    lab_s = DBSCAN(eps=0.15, min_samples=20).fit_predict(Zs)
+    stability[name] = {}
+    for c in STAB_FLAGS:
+        flag = (Xs_raw[c] > 0).to_numpy()
+        purity = [flag[lab_s == g].mean() for g in set(lab_s) - {-1}]
+        stability[name][c] = r(max(purity), 3)   # purity of the most "flag-pure" group
+results["stability_max_group_purity"] = stability
+table("Table 10 — stability: purity of the most homogeneous DBSCAN group for each rare value, per map",
+      pd.DataFrame(stability).T, ".2f")
 results["rate_if_positive"] = {c: {"rate": r(train.loc[train[c] > 0, P.TARGET].mean()),
                                    "n": int((train[c] > 0).sum())}
                                for c in ["required_car_parking_spaces", "previous_cancellations",
