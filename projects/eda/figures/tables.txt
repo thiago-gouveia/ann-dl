@@ -1,0 +1,179 @@
+--8<-- [start:t1]
+|                                | dtype   |   distinct |
+|:-------------------------------|:--------|-----------:|
+| hotel                          | object  |          2 |
+| is_canceled                    | int64   |          2 |
+| lead_time                      | int64   |        479 |
+| arrival_date_year              | int64   |          3 |
+| arrival_date_month             | object  |         12 |
+| arrival_date_week_number       | int64   |         53 |
+| arrival_date_day_of_month      | int64   |         31 |
+| stays_in_weekend_nights        | int64   |         17 |
+| stays_in_week_nights           | int64   |         35 |
+| adults                         | int64   |         14 |
+| children                       | float64 |          5 |
+| babies                         | int64   |          5 |
+| meal                           | object  |          5 |
+| country                        | object  |        177 |
+| market_segment                 | object  |          8 |
+| distribution_channel           | object  |          5 |
+| is_repeated_guest              | int64   |          2 |
+| previous_cancellations         | int64   |         15 |
+| previous_bookings_not_canceled | int64   |         73 |
+| reserved_room_type             | object  |         10 |
+| assigned_room_type             | object  |         12 |
+| booking_changes                | int64   |         21 |
+| deposit_type                   | object  |          3 |
+| agent                          | float64 |        333 |
+| company                        | float64 |        352 |
+| days_in_waiting_list           | int64   |        128 |
+| customer_type                  | object  |          4 |
+| adr                            | float64 |       8879 |
+| required_car_parking_spaces    | int64   |          5 |
+| total_of_special_requests      | int64   |          6 |
+| reservation_status             | object  |          3 |
+| reservation_status_date        | object  |        926 |
+--8<-- [end:t1]
+
+--8<-- [start:t2]
+|          |   missing |   pct |
+|:---------|----------:|------:|
+| company  | 112593.00 | 94.31 |
+| agent    |  16340.00 | 13.69 |
+| country  |    488.00 |  0.41 |
+| children |      4.00 |  0.00 |
+--8<-- [end:t2]
+
+--8<-- [start:t3]
+|                                |    mean |   median |   std |     min |      Q1 |      Q3 |     max |   skew |   % zeros |
+|:-------------------------------|--------:|---------:|------:|--------:|--------:|--------:|--------:|-------:|----------:|
+| lead_time                      |   80.01 |    49.00 | 86.05 |    0.00 |   11.00 |  125.00 |  737.00 |   1.43 |      6.76 |
+| arrival_date_year              | 2016.21 |  2016.00 |  0.69 | 2015.00 | 2016.00 | 2017.00 | 2017.00 |  -0.30 |      0.00 |
+| arrival_date_week_number       |   26.84 |    27.00 | 13.68 |    1.00 |   16.00 |   37.00 |   53.00 |   0.02 |      0.00 |
+| arrival_date_day_of_month      |   15.83 |    16.00 |  8.84 |    1.00 |    8.00 |   24.00 |   31.00 |  -0.00 |      0.00 |
+| stays_in_weekend_nights        |    1.00 |     1.00 |  1.03 |    0.00 |    0.00 |    2.00 |   18.00 |   1.30 |     40.19 |
+| stays_in_week_nights           |    2.62 |     2.00 |  2.03 |    0.00 |    1.00 |    4.00 |   42.00 |   2.48 |      6.94 |
+| adults                         |    1.88 |     2.00 |  0.59 |    0.00 |    2.00 |    2.00 |   50.00 |  16.10 |      0.25 |
+| children                       |    0.14 |     0.00 |  0.46 |    0.00 |    0.00 |    0.00 |   10.00 |   3.48 |     90.39 |
+| babies                         |    0.01 |     0.00 |  0.12 |    0.00 |    0.00 |    0.00 |   10.00 |  22.93 |     98.95 |
+| previous_cancellations         |    0.03 |     0.00 |  0.39 |    0.00 |    0.00 |    0.00 |   26.00 |  33.99 |     98.04 |
+| previous_bookings_not_canceled |    0.19 |     0.00 |  1.73 |    0.00 |    0.00 |    0.00 |   72.00 |  20.25 |     95.93 |
+| booking_changes                |    0.27 |     0.00 |  0.71 |    0.00 |    0.00 |    0.00 |   18.00 |   5.05 |     81.87 |
+| days_in_waiting_list           |    0.74 |     0.00 | 10.01 |    0.00 |    0.00 |    0.00 |  391.00 |  19.87 |     99.03 |
+| adr                            |  106.67 |    98.60 | 55.54 |   -6.38 |   72.25 |  134.10 | 5400.00 |  13.11 |      1.86 |
+| required_car_parking_spaces    |    0.08 |     0.00 |  0.28 |    0.00 |    0.00 |    0.00 |    8.00 |   3.58 |     91.60 |
+| total_of_special_requests      |    0.70 |     0.00 |  0.83 |    0.00 |    0.00 |    1.00 |    5.00 |   1.08 |     50.16 |
+--8<-- [end:t3]
+
+--8<-- [start:t4]
+|                                |   raw |   clipped |   clipped + log1p |   q99.9 (clip) |     max | log1p?   |
+|:-------------------------------|------:|----------:|------------------:|---------------:|--------:|:---------|
+| days_in_waiting_list           | 19.87 |     15.39 |             10.73 |         174.00 |  391.00 | yes      |
+| previous_bookings_not_canceled | 20.25 |     12.37 |              6.72 |          24.00 |   72.00 | yes      |
+| previous_cancellations         | 33.99 |     11.95 |              8.42 |           4.00 |   26.00 | yes      |
+| babies                         | 22.93 |      9.60 |              9.60 |           1.00 |   10.00 | no       |
+| booking_changes                |  5.05 |      3.50 |              2.19 |           6.00 |   18.00 | yes      |
+| children                       |  3.48 |      3.32 |              3.03 |           2.00 |   10.00 | yes      |
+| stays_in_week_nights           |  2.48 |      1.98 |             -0.16 |          19.00 |   42.00 | yes      |
+| lead_time                      |  1.43 |      1.38 |             -0.72 |         483.52 |  737.00 | yes      |
+| total_of_special_requests      |  1.08 |      1.06 |              0.44 |           4.00 |    5.00 | yes      |
+| stays_in_weekend_nights        |  1.30 |      0.95 |              0.08 |           7.00 |   18.00 | no       |
+| adr                            | 13.11 |      0.84 |             -3.59 |         336.52 | 5400.00 | no       |
+| arrival_date_day_of_month      | -0.00 |     -0.00 |             -0.99 |          31.00 |   31.00 | no       |
+| adults                         | 16.10 |     -0.34 |             -1.10 |           3.00 |   50.00 | no       |
+--8<-- [end:t4]
+
+--8<-- [start:t5]
+| feature              |   cardinality | top        |   top % |   missing % |   categories < 50 |   rows in those % |
+|:---------------------|--------------:|:-----------|--------:|------------:|------------------:|------------------:|
+| hotel                |             2 | City Hotel |   61.22 |        0.00 |                 0 |              0.00 |
+| arrival_date_month   |            12 | August     |   12.91 |        0.00 |                 0 |              0.00 |
+| meal                 |             5 | BB         |   77.85 |        0.00 |                 0 |              0.00 |
+| country              |           169 | PRT        |   31.27 |        0.52 |               123 |              1.77 |
+| market_segment       |             8 | Online TA  |   59.11 |        0.00 |                 1 |              0.00 |
+| distribution_channel |             5 | TA/TO      |   79.10 |        0.00 |                 1 |              0.00 |
+| is_repeated_guest    |             2 | 0          |   96.14 |        0.00 |                 0 |              0.00 |
+| reserved_room_type   |             9 | A          |   64.58 |        0.00 |                 1 |              0.00 |
+| assigned_room_type   |            10 | A          |   52.93 |        0.00 |                 0 |              0.00 |
+| deposit_type         |             3 | No Deposit |   98.72 |        0.00 |                 0 |              0.00 |
+| agent                |           315 | 9          |   32.96 |       13.95 |               236 |              3.29 |
+| customer_type        |             4 | Transient  |   82.35 |        0.00 |                 0 |              0.00 |
+| has_company          |             2 | 0          |   93.98 |        0.00 |                 0 |              0.00 |
+--8<-- [end:t5]
+
+--8<-- [start:t6]
+|                                                         |   spearman |   pearson |
+|:--------------------------------------------------------|-----------:|----------:|
+| ('arrival_date_week_number', 'arrival_month_num')       |      0.995 |     0.995 |
+| ('previous_bookings_not_canceled', 'is_repeated_guest') |      0.805 |     0.443 |
+| ('arrival_date_year', 'arrival_date_week_number')       |     -0.516 |    -0.514 |
+| ('arrival_date_year', 'arrival_month_num')              |     -0.501 |    -0.500 |
+| ('previous_bookings_not_canceled', 'has_company')       |      0.424 |     0.309 |
+| ('lead_time', 'stays_in_week_nights')                   |      0.418 |     0.314 |
+| ('is_repeated_guest', 'has_company')                    |      0.364 |     0.364 |
+| ('adults', 'adr')                                       |      0.336 |     0.252 |
+| ('stays_in_weekend_nights', 'stays_in_week_nights')     |      0.326 |     0.548 |
+| ('adults', 'has_company')                               |     -0.318 |    -0.259 |
+--8<-- [end:t6]
+
+--8<-- [start:t6b]
+|                                                         |    all |   City Hotel |   Resort Hotel |   max |diff| |
+|:--------------------------------------------------------|-------:|-------------:|---------------:|-------------:|
+| ('arrival_date_week_number', 'arrival_month_num')       |  0.995 |        0.995 |          0.995 |        0.000 |
+| ('previous_bookings_not_canceled', 'is_repeated_guest') |  0.805 |        0.872 |          0.745 |        0.067 |
+| ('arrival_date_year', 'arrival_date_week_number')       | -0.516 |       -0.511 |         -0.523 |        0.007 |
+| ('arrival_date_year', 'arrival_month_num')              | -0.501 |       -0.494 |         -0.510 |        0.009 |
+| ('previous_bookings_not_canceled', 'has_company')       |  0.424 |        0.537 |          0.315 |        0.113 |
+| ('lead_time', 'stays_in_week_nights')                   |  0.418 |        0.290 |          0.587 |        0.169 |
+| ('stays_in_weekend_nights', 'stays_in_week_nights')     |  0.326 |        0.081 |          0.604 |        0.278 |
+| ('lead_time', 'stays_in_weekend_nights')                |  0.297 |        0.163 |          0.483 |        0.186 |
+| ('is_repeated_guest', 'has_company')                    |  0.364 |        0.509 |          0.205 |        0.159 |
+| ('stays_in_week_nights', 'adr')                         |  0.085 |        0.036 |          0.213 |        0.128 |
+--8<-- [end:t6b]
+
+--8<-- [start:t8]
+| block   |   columns | names                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|:--------|----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| num_log |         8 | `lead_time`, `stays_in_week_nights`, `total_of_special_requests`, `booking_changes`, `children`, `previous_cancellations`, `previous_bookings_not_canceled`, `days_in_waiting_list`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| num_lin |         5 | `adr`, `adults`, `arrival_date_day_of_month`, `stays_in_weekend_nights`, `babies`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| bin     |         2 | `is_repeated_guest`, `has_company`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| cat     |       177 | `hotel_City Hotel`, `hotel_Resort Hotel`, `arrival_date_month_April`, `arrival_date_month_August`, `arrival_date_month_December`, `arrival_date_month_February`, `arrival_date_month_January`, `arrival_date_month_July`, `arrival_date_month_June`, `arrival_date_month_March`, `arrival_date_month_May`, `arrival_date_month_November`, `arrival_date_month_October`, `arrival_date_month_September`, `meal_BB`, `meal_FB`, `meal_HB`, `meal_SC`, `meal_Undefined`, `country_AGO`, `country_ARG`, `country_AUS`, `country_AUT`, `country_BEL`, `country_BGR`, `country_BRA`, `country_CHE`, `country_CHL`, `country_CHN`, `country_CN`, `country_COL`, `country_CZE`, `country_DEU`, `country_DNK`, `country_DZA`, `country_ESP`, `country_EST`, `country_FIN`, `country_FRA`, `country_GBR`, `country_GRC`, `country_HRV`, `country_HUN`, `country_IND`, `country_IRL`, `country_IRN`, `country_ISR`, `country_ITA`, `country_JPN`, `country_KOR`, `country_LTU`, `country_LUX`, `country_MAR`, `country_MEX`, `country_NLD`, `country_NOR`, `country_NZL`, `country_POL`, `country_PRT`, `country_ROU`, `country_RUS`, `country_SWE`, `country_TUR`, `country_USA`, `country_ZAF`, `country_missing`, `country_infrequent_sklearn`, `market_segment_Aviation`, `market_segment_Complementary`, `market_segment_Corporate`, `market_segment_Direct`, `market_segment_Groups`, `market_segment_Offline TA/TO`, `market_segment_Online TA`, `market_segment_infrequent_sklearn`, `distribution_channel_Corporate`, `distribution_channel_Direct`, `distribution_channel_GDS`, `distribution_channel_TA/TO`, `distribution_channel_infrequent_sklearn`, `reserved_room_type_A`, `reserved_room_type_B`, `reserved_room_type_C`, `reserved_room_type_D`, `reserved_room_type_E`, `reserved_room_type_F`, `reserved_room_type_G`, `reserved_room_type_H`, `reserved_room_type_infrequent_sklearn`, `deposit_type_No Deposit`, `deposit_type_Non Refund`, `deposit_type_Refundable`, `customer_type_Contract`, `customer_type_Group`, `customer_type_Transient`, `customer_type_Transient-Party`, `agent_1`, `agent_10`, `agent_11`, `agent_115`, `agent_118`, `agent_12`, `agent_13`, `agent_132`, `agent_134`, `agent_138`, `agent_14`, `agent_142`, `agent_143`, `agent_146`, `agent_147`, `agent_15`, `agent_152`, `agent_156`, `agent_159`, `agent_16`, `agent_168`, `agent_17`, `agent_171`, `agent_175`, `agent_177`, `agent_185`, `agent_19`, `agent_191`, `agent_195`, `agent_196`, `agent_2`, `agent_20`, `agent_21`, `agent_22`, `agent_220`, `agent_229`, `agent_240`, `agent_241`, `agent_242`, `agent_243`, `agent_250`, `agent_251`, `agent_26`, `agent_27`, `agent_273`, `agent_28`, `agent_29`, `agent_298`, `agent_3`, `agent_30`, `agent_314`, `agent_315`, `agent_330`, `agent_339`, `agent_34`, `agent_36`, `agent_37`, `agent_38`, `agent_39`, `agent_40`, `agent_410`, `agent_42`, `agent_464`, `agent_5`, `agent_52`, `agent_6`, `agent_69`, `agent_7`, `agent_75`, `agent_8`, `agent_83`, `agent_85`, `agent_86`, `agent_89`, `agent_9`, `agent_94`, `agent_95`, `agent_96`, `agent_98`, `agent_missing`, `agent_infrequent_sklearn` |
+--8<-- [end:t8]
+
+--8<-- [start:t9]
+|                    |   trust_k5 |   trust_k30 |   silhouette_target |   knn15_acc |   dbscan_groups |
+|:-------------------|-----------:|------------:|--------------------:|------------:|----------------:|
+| PCA (2 PCs)        |      0.750 |       0.754 |              -0.013 |       0.705 |           5.000 |
+| tsne_10            |      0.991 |       0.954 |               0.027 |       0.764 |           9.000 |
+| tsne_30            |      0.990 |       0.960 |               0.013 |       0.760 |           7.000 |
+| tsne_100           |      0.988 |       0.961 |               0.013 |       0.765 |           5.000 |
+| umap_5             |      0.972 |       0.945 |               0.035 |       0.767 |           8.000 |
+| umap_15            |      0.962 |       0.950 |               0.030 |       0.762 |           8.000 |
+| umap_100           |      0.949 |       0.939 |               0.040 |       0.750 |           7.000 |
+| tsne_30 (shuffled) |      0.977 |       0.943 |              -0.006 |       0.714 |           9.000 |
+| umap_15 (shuffled) |      0.916 |       0.908 |              -0.008 |       0.711 |           7.000 |
+--8<-- [end:t9]
+
+--8<-- [start:t10]
+|          |   previous_cancellations |   children |   babies |   days_in_waiting_list |   is_repeated_guest |
+|:---------|-------------------------:|-----------:|---------:|-----------------------:|--------------------:|
+| tsne_10  |                     1.00 |       1.00 |     1.00 |                   1.00 |                0.88 |
+| tsne_30  |                     1.00 |       1.00 |     1.00 |                   1.00 |                0.82 |
+| tsne_100 |                     0.02 |       1.00 |     1.00 |                   1.00 |                0.04 |
+| umap_5   |                     1.00 |       1.00 |     1.00 |                   1.00 |                0.83 |
+| umap_15  |                     1.00 |       1.00 |     1.00 |                   1.00 |                0.81 |
+| umap_100 |                     1.00 |       1.00 |     1.00 |                   1.00 |                0.83 |
+--8<-- [end:t10]
+
+--8<-- [start:t7]
+|   group |    n |   cancel_rate | centre       | hotel              | market_segment   | deposit_type      | customer_type         | distribution_channel   |   is_repeated_guest |   has_company |   required_car_parking_spaces > 0 |   previous_cancellations > 0 |   babies > 0 |   children > 0 |   days_in_waiting_list > 0 |   booking_changes > 0 |
+|--------:|-----:|--------------:|:-------------|:-------------------|:-----------------|:------------------|:----------------------|:-----------------------|--------------------:|--------------:|----------------------------------:|-----------------------------:|-------------:|---------------:|---------------------------:|----------------------:|
+|       0 | 3303 |         0.282 | [10.9, 6.7]  | City Hotel (62%)   | Online TA (71%)  | No Deposit (99%)  | Transient (79%)       | TA/TO (96%)            |               0.008 |         0.020 |                             0.065 |                        0.000 |        0.000 |          0.000 |                      0.000 |                 0.150 |
+|       4 |  657 |         0.126 | [17.5, 8.1]  | City Hotel (52%)   | Direct (77%)     | No Deposit (99%)  | Transient (89%)       | Direct (81%)           |               0.027 |         0.174 |                             0.146 |                        0.000 |        0.000 |          0.018 |                      0.000 |                 0.275 |
+|       2 |  417 |         0.348 | [7.6, 18.0]  | City Hotel (59%)   | Online TA (75%)  | No Deposit (100%) | Transient (91%)       | TA/TO (83%)            |               0.007 |         0.005 |                             0.146 |                        0.000 |        0.000 |          1.000 |                      0.000 |                 0.201 |
+|       1 |  267 |         0.408 | [16.3, 4.8]  | City Hotel (97%)   | Online TA (88%)  | No Deposit (100%) | Transient (97%)       | TA/TO (96%)            |               0.004 |         0.000 |                             0.030 |                        0.000 |        0.000 |          0.004 |                      0.004 |                 0.142 |
+|       6 |  134 |         0.037 | [4.6, 5.4]   | Resort Hotel (64%) | Corporate (54%)  | No Deposit (100%) | Transient (93%)       | Corporate (54%)        |               0.813 |         0.634 |                             0.216 |                        0.000 |        0.000 |          0.007 |                      0.000 |                 0.239 |
+|       3 |   87 |         0.701 | [-4.6, 12.2] | City Hotel (70%)   | Corporate (30%)  | No Deposit (90%)  | Transient (67%)       | TA/TO (54%)            |               0.425 |         0.322 |                             0.069 |                        1.000 |        0.000 |          0.034 |                      0.000 |                 0.115 |
+|       5 |   53 |         0.340 | [12.2, -9.3] | City Hotel (83%)   | Groups (47%)     | No Deposit (72%)  | Transient-Party (72%) | TA/TO (89%)            |               0.000 |         0.038 |                             0.000 |                        0.000 |        0.000 |          0.000 |                      1.000 |                 0.377 |
+|       7 |   49 |         0.143 | [-5.5, 2.4]  | Resort Hotel (61%) | Online TA (41%)  | No Deposit (100%) | Transient (90%)       | TA/TO (67%)            |               0.000 |         0.000 |                             0.204 |                        0.000 |        1.000 |          0.163 |                      0.000 |                 0.531 |
+--8<-- [end:t7]
