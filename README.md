@@ -9,6 +9,10 @@ Reports for the Insper ANN-DL course, published at <https://thiago-gouveia.githu
 | MLP | [docs/exercises/mlp/index.md](docs/exercises/mlp/index.md) | [docs/exercises/mlp/code/mlp.py](docs/exercises/mlp/code/mlp.py) |
 | VAE | [docs/exercises/vae/index.md](docs/exercises/vae/index.md) | [docs/exercises/vae/code/vae.py](docs/exercises/vae/code/vae.py) |
 
+| Project | Report | Code |
+|---|---|---|
+| EDA (Hotel Booking Demand) | [docs/projects/eda/index.md](docs/projects/eda/index.md) | [eda.py](docs/projects/eda/code/eda.py), [pipeline.py](docs/projects/eda/code/pipeline.py) |
+
 ## Setup
 
 ```shell

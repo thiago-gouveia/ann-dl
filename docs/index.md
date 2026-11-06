@@ -17,3 +17,4 @@ the code that was actually run (`code/`) and the figures it produced (`figures/`
 - [x] [MLP](exercises/mlp/index.md) — a multi-layer perceptron written from scratch: backprop by hand, binary and multi-class tasks, and a depth comparison
 - [x] [VAE](exercises/vae/index.md) — a variational autoencoder on MNIST with both loss terms logged, and a 2-D latent space you can see
 - [ ] [Projects](projects/index.md)
+    - [x] [EDA](projects/eda/index.md) — Hotel Booking Demand: exploratory analysis and preprocessing pipeline

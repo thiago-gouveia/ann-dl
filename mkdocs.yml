@@ -132,4 +132,6 @@ nav:
     - Perceptron: exercises/perceptron/index.md
     - MLP: exercises/mlp/index.md
     - VAE: exercises/vae/index.md
-  - Projects: projects/index.md
+  - Projects:
+    - Overview: projects/index.md
+    - EDA: projects/eda/index.md

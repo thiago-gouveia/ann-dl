@@ -1,0 +1,1786 @@
+{
+ "raw": {
+  "rows": 119390,
+  "cols": 32,
+  "features": 31,
+  "missing": {
+   "company": {
+    "n": 112593,
+    "pct": 94.31
+   },
+   "agent": {
+    "n": 16340,
+    "pct": 13.69
+   },
+   "country": {
+    "n": 488,
+    "pct": 0.41
+   },
+   "children": {
+    "n": 4,
+    "pct": 0.0
+   }
+  },
+  "duplicates": 31994,
+  "duplicates_pct": 26.8,
+  "dup_cancel_rate": 0.5839,
+  "dup_removed_cancel_rate": 0.6313,
+  "dup_removed_nonrefund_pct": 42.35,
+  "nonrefund_raw": 14587,
+  "nonrefund_after_dedup": 1038,
+  "nonrefund_raw_cancel_rate": 0.9936,
+  "impossible": {
+   "0 guests (adults + children + babies = 0)": 180,
+   "adults = 0 but children > 0 (child without adult)": 223,
+   "adr < 0 (negative price)": 1,
+   "adr > 1000": 1,
+   "adr = 0 (free stay)": 1959,
+   "0 nights (weekend + week nights = 0)": 715,
+   "meal = 'Undefined' (same as SC per the source)": 1169
+  },
+  "constant_cols": [],
+  "leak_status": {
+   "0": {
+    "Canceled": 0,
+    "Check-Out": 75166,
+    "No-Show": 0
+   },
+   "1": {
+    "Canceled": 43017,
+    "Check-Out": 0,
+    "No-Show": 1207
+   }
+  },
+  "leak_room_changed": {
+   "False": {
+    "rate": 0.4156,
+    "n": 104473
+   },
+   "True": {
+    "rate": 0.0538,
+    "n": 14917
+   }
+  },
+  "leak_status_date_before_arrival": {
+   "False": {
+    "rate": 0.027,
+    "n": 77253
+   },
+   "True": {
+    "rate": 1.0,
+    "n": 42137
+   }
+  },
+  "leak_parking": {
+   "False": {
+    "rate": 0.3949,
+    "n": 111974
+   },
+   "True": {
+    "rate": 0.0,
+    "n": 7416
+   }
+  },
+  "target_rate_raw": 0.3704,
+  "year_rates": {
+   "2015": 0.3702,
+   "2016": 0.3586,
+   "2017": 0.387
+  },
+  "date_range": [
+   "2015-07-01",
+   "2017-08-31"
+  ]
+ },
+ "clean": {
+  "rows": 87230,
+  "removed_dup": 31994,
+  "removed_zero_guests": 166,
+  "target_rate": 0.2752
+ },
+ "split": {
+  "train": 69784,
+  "test": 17446,
+  "train_rate": 0.2752,
+  "test_rate": 0.2752
+ },
+ "num_desc": {
+  "lead_time": {
+   "mean": 80.013,
+   "median": 49.0,
+   "std": 86.05,
+   "min": 0.0,
+   "Q1": 11.0,
+   "Q3": 125.0,
+   "max": 737.0,
+   "skew": 1.431,
+   "% zeros": 6.762
+  },
+  "arrival_date_year": {
+   "mean": 2016.21,
+   "median": 2016.0,
+   "std": 0.686,
+   "min": 2015.0,
+   "Q1": 2016.0,
+   "Q3": 2017.0,
+   "max": 2017.0,
+   "skew": -0.297,
+   "% zeros": 0.0
+  },
+  "arrival_date_week_number": {
+   "mean": 26.841,
+   "median": 27.0,
+   "std": 13.683,
+   "min": 1.0,
+   "Q1": 16.0,
+   "Q3": 37.0,
+   "max": 53.0,
+   "skew": 0.021,
+   "% zeros": 0.0
+  },
+  "arrival_date_day_of_month": {
+   "mean": 15.834,
+   "median": 16.0,
+   "std": 8.839,
+   "min": 1.0,
+   "Q1": 8.0,
+   "Q3": 24.0,
+   "max": 31.0,
+   "skew": -0.003,
+   "% zeros": 0.0
+  },
+  "stays_in_weekend_nights": {
+   "mean": 1.005,
+   "median": 1.0,
+   "std": 1.026,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 2.0,
+   "max": 18.0,
+   "skew": 1.296,
+   "% zeros": 40.19
+  },
+  "stays_in_week_nights": {
+   "mean": 2.625,
+   "median": 2.0,
+   "std": 2.031,
+   "min": 0.0,
+   "Q1": 1.0,
+   "Q3": 4.0,
+   "max": 42.0,
+   "skew": 2.48,
+   "% zeros": 6.937
+  },
+  "adults": {
+   "mean": 1.879,
+   "median": 2.0,
+   "std": 0.595,
+   "min": 0.0,
+   "Q1": 2.0,
+   "Q3": 2.0,
+   "max": 50.0,
+   "skew": 16.103,
+   "% zeros": 0.246
+  },
+  "children": {
+   "mean": 0.139,
+   "median": 0.0,
+   "std": 0.455,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 10.0,
+   "skew": 3.477,
+   "% zeros": 90.393
+  },
+  "babies": {
+   "mean": 0.011,
+   "median": 0.0,
+   "std": 0.116,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 10.0,
+   "skew": 22.928,
+   "% zeros": 98.948
+  },
+  "previous_cancellations": {
+   "mean": 0.031,
+   "median": 0.0,
+   "std": 0.385,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 26.0,
+   "skew": 33.989,
+   "% zeros": 98.041
+  },
+  "previous_bookings_not_canceled": {
+   "mean": 0.185,
+   "median": 0.0,
+   "std": 1.734,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 72.0,
+   "skew": 20.247,
+   "% zeros": 95.933
+  },
+  "booking_changes": {
+   "mean": 0.269,
+   "median": 0.0,
+   "std": 0.71,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 18.0,
+   "skew": 5.047,
+   "% zeros": 81.87
+  },
+  "days_in_waiting_list": {
+   "mean": 0.738,
+   "median": 0.0,
+   "std": 10.013,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 391.0,
+   "skew": 19.867,
+   "% zeros": 99.03
+  },
+  "adr": {
+   "mean": 106.667,
+   "median": 98.6,
+   "std": 55.544,
+   "min": -6.38,
+   "Q1": 72.25,
+   "Q3": 134.1,
+   "max": 5400.0,
+   "skew": 13.112,
+   "% zeros": 1.857
+  },
+  "required_car_parking_spaces": {
+   "mean": 0.085,
+   "median": 0.0,
+   "std": 0.283,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 0.0,
+   "max": 8.0,
+   "skew": 3.577,
+   "% zeros": 91.595
+  },
+  "total_of_special_requests": {
+   "mean": 0.7,
+   "median": 0.0,
+   "std": 0.832,
+   "min": 0.0,
+   "Q1": 0.0,
+   "Q3": 1.0,
+   "max": 5.0,
+   "skew": 1.082,
+   "% zeros": 50.159
+  }
+ },
+ "skew": {
+  "days_in_waiting_list": {
+   "raw": 19.867,
+   "clipped": 15.39,
+   "clipped + log1p": 10.725,
+   "q99.9 (clip)": 174.0,
+   "max": 391.0
+  },
+  "previous_bookings_not_canceled": {
+   "raw": 20.247,
+   "clipped": 12.367,
+   "clipped + log1p": 6.722,
+   "q99.9 (clip)": 24.0,
+   "max": 72.0
+  },
+  "previous_cancellations": {
+   "raw": 33.989,
+   "clipped": 11.953,
+   "clipped + log1p": 8.42,
+   "q99.9 (clip)": 4.0,
+   "max": 26.0
+  },
+  "babies": {
+   "raw": 22.928,
+   "clipped": 9.596,
+   "clipped + log1p": 9.596,
+   "q99.9 (clip)": 1.0,
+   "max": 10.0
+  },
+  "booking_changes": {
+   "raw": 5.047,
+   "clipped": 3.501,
+   "clipped + log1p": 2.19,
+   "q99.9 (clip)": 6.0,
+   "max": 18.0
+  },
+  "children": {
+   "raw": 3.477,
+   "clipped": 3.319,
+   "clipped + log1p": 3.026,
+   "q99.9 (clip)": 2.0,
+   "max": 10.0
+  },
+  "stays_in_week_nights": {
+   "raw": 2.48,
+   "clipped": 1.983,
+   "clipped + log1p": -0.164,
+   "q99.9 (clip)": 19.0,
+   "max": 42.0
+  },
+  "lead_time": {
+   "raw": 1.431,
+   "clipped": 1.385,
+   "clipped + log1p": -0.718,
+   "q99.9 (clip)": 483.519,
+   "max": 737.0
+  },
+  "total_of_special_requests": {
+   "raw": 1.082,
+   "clipped": 1.059,
+   "clipped + log1p": 0.44,
+   "q99.9 (clip)": 4.0,
+   "max": 5.0
+  },
+  "stays_in_weekend_nights": {
+   "raw": 1.296,
+   "clipped": 0.954,
+   "clipped + log1p": 0.075,
+   "q99.9 (clip)": 7.0,
+   "max": 18.0
+  },
+  "adr": {
+   "raw": 13.112,
+   "clipped": 0.843,
+   "clipped + log1p": -3.592,
+   "q99.9 (clip)": 336.515,
+   "max": 5400.0
+  },
+  "arrival_date_day_of_month": {
+   "raw": -0.003,
+   "clipped": -0.003,
+   "clipped + log1p": -0.995,
+   "q99.9 (clip)": 31.0,
+   "max": 31.0
+  },
+  "adults": {
+   "raw": 16.103,
+   "clipped": -0.342,
+   "clipped + log1p": -1.096,
+   "q99.9 (clip)": 3.0,
+   "max": 50.0
+  }
+ },
+ "rows_clipped": {
+  "n": 599,
+  "pct": 0.86,
+  "per_feature": {
+   "lead_time": 70,
+   "stays_in_week_nights": 65,
+   "total_of_special_requests": 29,
+   "booking_changes": 59,
+   "children": 54,
+   "previous_cancellations": 67,
+   "previous_bookings_not_canceled": 68,
+   "days_in_waiting_list": 68,
+   "adr": 71,
+   "adults": 58,
+   "arrival_date_day_of_month": 0,
+   "stays_in_weekend_nights": 69,
+   "babies": 16
+  }
+ },
+ "cat": {
+  "hotel": {
+   "cardinality": 2,
+   "top": "City Hotel",
+   "top %": 61.223,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "arrival_date_month": {
+   "cardinality": 12,
+   "top": "August",
+   "top %": 12.913,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "meal": {
+   "cardinality": 5,
+   "top": "BB",
+   "top %": 77.849,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "country": {
+   "cardinality": 169,
+   "top": "PRT",
+   "top %": 31.272,
+   "missing %": 0.522,
+   "categories < 50": 123,
+   "rows in those %": 1.771
+  },
+  "market_segment": {
+   "cardinality": 8,
+   "top": "Online TA",
+   "top %": 59.114,
+   "missing %": 0.0,
+   "categories < 50": 1,
+   "rows in those %": 0.001
+  },
+  "distribution_channel": {
+   "cardinality": 5,
+   "top": "TA/TO",
+   "top %": 79.098,
+   "missing %": 0.0,
+   "categories < 50": 1,
+   "rows in those %": 0.004
+  },
+  "is_repeated_guest": {
+   "cardinality": 2,
+   "top": "0",
+   "top %": 96.137,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "reserved_room_type": {
+   "cardinality": 9,
+   "top": "A",
+   "top %": 64.576,
+   "missing %": 0.0,
+   "categories < 50": 1,
+   "rows in those %": 0.004
+  },
+  "assigned_room_type": {
+   "cardinality": 10,
+   "top": "A",
+   "top %": 52.929,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "deposit_type": {
+   "cardinality": 3,
+   "top": "No Deposit",
+   "top %": 98.716,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "agent": {
+   "cardinality": 315,
+   "top": "9",
+   "top %": 32.96,
+   "missing %": 13.947,
+   "categories < 50": 236,
+   "rows in those %": 3.289
+  },
+  "customer_type": {
+   "cardinality": 4,
+   "top": "Transient",
+   "top %": 82.354,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  },
+  "has_company": {
+   "cardinality": 2,
+   "top": "0",
+   "top %": 93.977,
+   "missing %": 0.0,
+   "categories < 50": 0,
+   "rows in those %": 0.0
+  }
+ },
+ "cat_freq_top12_pct": {
+  "hotel": {
+   "City Hotel": 61.22,
+   "Resort Hotel": 38.78
+  },
+  "arrival_date_month": {
+   "August": 12.91,
+   "July": 11.54,
+   "May": 9.5,
+   "April": 9.03,
+   "June": 8.87,
+   "March": 8.59,
+   "October": 7.93,
+   "September": 7.68,
+   "February": 7.01,
+   "December": 5.91,
+   "November": 5.66,
+   "January": 5.39
+  },
+  "meal": {
+   "BB": 77.85,
+   "SC": 10.8,
+   "HB": 10.37,
+   "Undefined": 0.58,
+   "FB": 0.39
+  },
+  "country": {
+   "PRT": 31.44,
+   "GBR": 11.97,
+   "FRA": 10.24,
+   "ESP": 8.38,
+   "DEU": 6.27,
+   "ITA": 3.51,
+   "IRL": 3.41,
+   "BEL": 2.4,
+   "BRA": 2.31,
+   "NLD": 2.18,
+   "USA": 2.17,
+   "CHE": 1.81
+  },
+  "market_segment": {
+   "Online TA": 59.11,
+   "Offline TA/TO": 15.87,
+   "Direct": 13.53,
+   "Groups": 5.63,
+   "Corporate": 4.8,
+   "Complementary": 0.78,
+   "Aviation": 0.27,
+   "Undefined": 0.0
+  },
+  "distribution_channel": {
+   "TA/TO": 79.1,
+   "Direct": 14.88,
+   "Corporate": 5.81,
+   "GDS": 0.21,
+   "Undefined": 0.0
+  },
+  "is_repeated_guest": {
+   "0": 96.14,
+   "1": 3.86
+  },
+  "reserved_room_type": {
+   "A": 64.58,
+   "D": 19.98,
+   "E": 6.96,
+   "F": 3.24,
+   "G": 2.34,
+   "B": 1.16,
+   "C": 1.05,
+   "H": 0.69,
+   "L": 0.0
+  },
+  "assigned_room_type": {
+   "A": 52.93,
+   "D": 25.77,
+   "E": 8.3,
+   "F": 4.16,
+   "G": 2.85,
+   "C": 2.45,
+   "B": 2.09,
+   "H": 0.82,
+   "I": 0.4,
+   "K": 0.22
+  },
+  "deposit_type": {
+   "No Deposit": 98.72,
+   "Non Refund": 1.17,
+   "Refundable": 0.12
+  },
+  "agent": {
+   "9": 38.3,
+   "240": 17.32,
+   "14": 4.49,
+   "7": 4.35,
+   "250": 3.66,
+   "241": 2.18,
+   "28": 2.03,
+   "8": 1.85,
+   "1": 1.65,
+   "6": 1.45,
+   "40": 1.32,
+   "314": 1.12
+  },
+  "customer_type": {
+   "Transient": 82.35,
+   "Transient-Party": 13.42,
+   "Contract": 3.58,
+   "Group": 0.64
+  },
+  "has_company": {
+   "0": 93.98,
+   "1": 6.02
+  }
+ },
+ "high_card": {
+  "country": {
+   "categories": 169,
+   "kept": 46,
+   "coverage_kept_pct": 98.22,
+   "top5_pct": 68.31
+  },
+  "agent": {
+   "categories": 315,
+   "kept": 79,
+   "coverage_kept_pct": 96.18,
+   "top5_pct": 68.13
+  }
+ },
+ "corr_top": [
+  {
+   "a": "arrival_date_week_number",
+   "b": "arrival_month_num",
+   "spearman": 0.995,
+   "pearson": 0.995
+  },
+  {
+   "a": "previous_bookings_not_canceled",
+   "b": "is_repeated_guest",
+   "spearman": 0.805,
+   "pearson": 0.443
+  },
+  {
+   "a": "arrival_date_year",
+   "b": "arrival_date_week_number",
+   "spearman": -0.516,
+   "pearson": -0.514
+  },
+  {
+   "a": "arrival_date_year",
+   "b": "arrival_month_num",
+   "spearman": -0.501,
+   "pearson": -0.5
+  },
+  {
+   "a": "previous_bookings_not_canceled",
+   "b": "has_company",
+   "spearman": 0.424,
+   "pearson": 0.309
+  },
+  {
+   "a": "lead_time",
+   "b": "stays_in_week_nights",
+   "spearman": 0.418,
+   "pearson": 0.314
+  },
+  {
+   "a": "is_repeated_guest",
+   "b": "has_company",
+   "spearman": 0.364,
+   "pearson": 0.364
+  },
+  {
+   "a": "adults",
+   "b": "adr",
+   "spearman": 0.336,
+   "pearson": 0.252
+  },
+  {
+   "a": "stays_in_weekend_nights",
+   "b": "stays_in_week_nights",
+   "spearman": 0.326,
+   "pearson": 0.548
+  },
+  {
+   "a": "adults",
+   "b": "has_company",
+   "spearman": -0.318,
+   "pearson": -0.259
+  }
+ ],
+ "cat_target": {
+  "deposit_type": {
+   "Refundable": {
+    "rate": 0.2439,
+    "n": 82
+   },
+   "No Deposit": {
+    "rate": 0.2673,
+    "n": 68888
+   },
+   "Non Refund": {
+    "rate": 0.9496,
+    "n": 814
+   }
+  },
+  "market_segment": {
+   "Complementary": {
+    "rate": 0.117,
+    "n": 547
+   },
+   "Corporate": {
+    "rate": 0.1251,
+    "n": 3350
+   },
+   "Offline TA/TO": {
+    "rate": 0.1479,
+    "n": 11074
+   },
+   "Direct": {
+    "rate": 0.149,
+    "n": 9442
+   },
+   "Aviation": {
+    "rate": 0.2021,
+    "n": 188
+   },
+   "Groups": {
+    "rate": 0.2697,
+    "n": 3930
+   },
+   "Online TA": {
+    "rate": 0.3534,
+    "n": 41252
+   },
+   "Undefined": {
+    "rate": 1.0,
+    "n": 1
+   }
+  },
+  "customer_type": {
+   "Group": {
+    "rate": 0.0913,
+    "n": 449
+   },
+   "Transient-Party": {
+    "rate": 0.1549,
+    "n": 9366
+   },
+   "Contract": {
+    "rate": 0.1665,
+    "n": 2499
+   },
+   "Transient": {
+    "rate": 0.301,
+    "n": 57470
+   }
+  },
+  "hotel": {
+   "Resort Hotel": {
+    "rate": 0.2351,
+    "n": 27060
+   },
+   "City Hotel": {
+    "rate": 0.3007,
+    "n": 42724
+   }
+  },
+  "distribution_channel": {
+   "Corporate": {
+    "rate": 0.1319,
+    "n": 4056
+   },
+   "Direct": {
+    "rate": 0.149,
+    "n": 10383
+   },
+   "GDS": {
+    "rate": 0.2014,
+    "n": 144
+   },
+   "TA/TO": {
+    "rate": 0.3097,
+    "n": 55198
+   },
+   "Undefined": {
+    "rate": 1.0,
+    "n": 3
+   }
+  },
+  "meal": {
+   "Undefined": {
+    "rate": 0.1523,
+    "n": 407
+   },
+   "BB": {
+    "rate": 0.2659,
+    "n": 54326
+   },
+   "HB": {
+    "rate": 0.2677,
+    "n": 7239
+   },
+   "FB": {
+    "rate": 0.2868,
+    "n": 272
+   },
+   "SC": {
+    "rate": 0.3562,
+    "n": 7540
+   }
+  },
+  "country_top15": {
+   "AUT": {
+    "rate": 0.1776,
+    "n": 749
+   },
+   "NLD": {
+    "rate": 0.1831,
+    "n": 1513
+   },
+   "GBR": {
+    "rate": 0.1931,
+    "n": 8313
+   },
+   "DEU": {
+    "rate": 0.1945,
+    "n": 4355
+   },
+   "FRA": {
+    "rate": 0.1946,
+    "n": 7111
+   },
+   "BEL": {
+    "rate": 0.2018,
+    "n": 1665
+   },
+   "CN": {
+    "rate": 0.2088,
+    "n": 862
+   },
+   "SWE": {
+    "rate": 0.2138,
+    "n": 669
+   },
+   "IRL": {
+    "rate": 0.2198,
+    "n": 2370
+   },
+   "CHE": {
+    "rate": 0.2458,
+    "n": 1257
+   },
+   "USA": {
+    "rate": 0.2487,
+    "n": 1508
+   },
+   "ESP": {
+    "rate": 0.2583,
+    "n": 5818
+   },
+   "ITA": {
+    "rate": 0.3551,
+    "n": 2439
+   },
+   "PRT": {
+    "rate": 0.3576,
+    "n": 21823
+   },
+   "BRA": {
+    "rate": 0.3597,
+    "n": 1604
+   }
+  },
+  "month_hotel": {
+   "City Hotel": {
+    "January": 0.2812,
+    "February": 0.2718,
+    "March": 0.2798,
+    "April": 0.3436,
+    "May": 0.3196,
+    "June": 0.3038,
+    "July": 0.3338,
+    "August": 0.3176,
+    "September": 0.2518,
+    "October": 0.2708,
+    "November": 0.2522,
+    "December": 0.3328
+   },
+   "Resort Hotel": {
+    "January": 0.1388,
+    "February": 0.1732,
+    "March": 0.1725,
+    "April": 0.2341,
+    "May": 0.2345,
+    "June": 0.3052,
+    "July": 0.3016,
+    "August": 0.3283,
+    "September": 0.2418,
+    "October": 0.1822,
+    "November": 0.1492,
+    "December": 0.1864
+   }
+  }
+ },
+ "base_rate_train": 0.2752,
+ "boxplots": {
+  "lead_time_by_segment_target": {
+   "Aviation|0": {
+    "n": 150,
+    "median": 3.0,
+    "IQR": 5.0
+   },
+   "Aviation|1": {
+    "n": 38,
+    "median": 3.0,
+    "IQR": 4.8
+   },
+   "Complementary|0": {
+    "n": 483,
+    "median": 3.0,
+    "IQR": 11.0
+   },
+   "Complementary|1": {
+    "n": 64,
+    "median": 7.0,
+    "IQR": 18.5
+   },
+   "Corporate|0": {
+    "n": 2931,
+    "median": 5.0,
+    "IQR": 14.0
+   },
+   "Corporate|1": {
+    "n": 419,
+    "median": 13.0,
+    "IQR": 34.0
+   },
+   "Direct|0": {
+    "n": 8035,
+    "median": 11.0,
+    "IQR": 66.0
+   },
+   "Direct|1": {
+    "n": 1407,
+    "median": 41.0,
+    "IQR": 99.0
+   },
+   "Groups|0": {
+    "n": 2870,
+    "median": 98.0,
+    "IQR": 185.0
+   },
+   "Groups|1": {
+    "n": 1060,
+    "median": 155.0,
+    "IQR": 216.0
+   },
+   "Offline TA/TO|0": {
+    "n": 9436,
+    "median": 76.0,
+    "IQR": 133.0
+   },
+   "Offline TA/TO|1": {
+    "n": 1638,
+    "median": 113.0,
+    "IQR": 141.0
+   },
+   "Online TA|0": {
+    "n": 26672,
+    "median": 41.0,
+    "IQR": 95.0
+   },
+   "Online TA|1": {
+    "n": 14580,
+    "median": 80.0,
+    "IQR": 119.0
+   },
+   "Undefined|1": {
+    "n": 1,
+    "median": 2.0,
+    "IQR": 0.0
+   }
+  },
+  "adr_by_room_hotel": {
+   "A|City Hotel": {
+    "n": 30330,
+    "median": 95.7,
+    "IQR": 39.2
+   },
+   "A|Resort Hotel": {
+    "n": 14734,
+    "median": 60.0,
+    "IQR": 60.2
+   },
+   "B|City Hotel": {
+    "n": 810,
+    "median": 87.5,
+    "IQR": 26.7
+   },
+   "B|Resort Hotel": {
+    "n": 2,
+    "median": 122.0,
+    "IQR": 12.0
+   },
+   "C|City Hotel": {
+    "n": 11,
+    "median": 89.0,
+    "IQR": 37.5
+   },
+   "C|Resort Hotel": {
+    "n": 720,
+    "median": 163.8,
+    "IQR": 100.6
+   },
+   "D|City Hotel": {
+    "n": 8667,
+    "median": 132.6,
+    "IQR": 46.2
+   },
+   "D|Resort Hotel": {
+    "n": 5274,
+    "median": 85.8,
+    "IQR": 78.3
+   },
+   "E|City Hotel": {
+    "n": 1142,
+    "median": 162.0,
+    "IQR": 62.0
+   },
+   "E|Resort Hotel": {
+    "n": 3713,
+    "median": 99.9,
+    "IQR": 80.0
+   },
+   "F|City Hotel": {
+    "n": 1405,
+    "median": 189.0,
+    "IQR": 55.0
+   },
+   "F|Resort Hotel": {
+    "n": 858,
+    "median": 117.0,
+    "IQR": 99.8
+   },
+   "G|City Hotel": {
+    "n": 359,
+    "median": 223.2,
+    "IQR": 75.0
+   },
+   "G|Resort Hotel": {
+    "n": 1273,
+    "median": 157.0,
+    "IQR": 110.2
+   },
+   "H|Resort Hotel": {
+    "n": 483,
+    "median": 185.0,
+    "IQR": 110.5
+   },
+   "L|Resort Hotel": {
+    "n": 3,
+    "median": 150.0,
+    "IQR": 18.0
+   }
+  },
+  "adr_by_month_hotel": {
+   "April|City Hotel": {
+    "n": 4078,
+    "median": 110.0,
+    "IQR": 41.5
+   },
+   "April|Resort Hotel": {
+    "n": 2221,
+    "median": 75.1,
+    "IQR": 40.4
+   },
+   "August|City Hotel": {
+    "n": 5271,
+    "median": 121.5,
+    "IQR": 56.3
+   },
+   "August|Resort Hotel": {
+    "n": 3740,
+    "median": 189.0,
+    "IQR": 82.8
+   },
+   "December|City Hotel": {
+    "n": 2428,
+    "median": 88.0,
+    "IQR": 37.6
+   },
+   "December|Resort Hotel": {
+    "n": 1695,
+    "median": 54.0,
+    "IQR": 37.2
+   },
+   "February|City Hotel": {
+    "n": 2903,
+    "median": 85.0,
+    "IQR": 25.5
+   },
+   "February|Resort Hotel": {
+    "n": 1986,
+    "median": 48.0,
+    "IQR": 25.4
+   },
+   "January|City Hotel": {
+    "n": 2201,
+    "median": 81.6,
+    "IQR": 26.0
+   },
+   "January|Resort Hotel": {
+    "n": 1563,
+    "median": 45.8,
+    "IQR": 20.0
+   },
+   "July|City Hotel": {
+    "n": 4590,
+    "median": 115.5,
+    "IQR": 52.8
+   },
+   "July|Resort Hotel": {
+    "n": 3462,
+    "median": 154.0,
+    "IQR": 75.8
+   },
+   "June|City Hotel": {
+    "n": 4000,
+    "median": 120.0,
+    "IQR": 45.0
+   },
+   "June|Resort Hotel": {
+    "n": 2189,
+    "median": 107.1,
+    "IQR": 62.0
+   },
+   "March|City Hotel": {
+    "n": 3864,
+    "median": 89.1,
+    "IQR": 31.2
+   },
+   "March|Resort Hotel": {
+    "n": 2128,
+    "median": 55.2,
+    "IQR": 30.0
+   },
+   "May|City Hotel": {
+    "n": 4281,
+    "median": 126.0,
+    "IQR": 43.5
+   },
+   "May|Resort Hotel": {
+    "n": 2345,
+    "median": 75.0,
+    "IQR": 41.4
+   },
+   "November|City Hotel": {
+    "n": 2347,
+    "median": 85.0,
+    "IQR": 30.0
+   },
+   "November|Resort Hotel": {
+    "n": 1602,
+    "median": 46.8,
+    "IQR": 24.0
+   },
+   "October|City Hotel": {
+    "n": 3361,
+    "median": 105.8,
+    "IQR": 43.2
+   },
+   "October|Resort Hotel": {
+    "n": 2173,
+    "median": 58.0,
+    "IQR": 29.1
+   },
+   "September|City Hotel": {
+    "n": 3400,
+    "median": 116.3,
+    "IQR": 55.6
+   },
+   "September|Resort Hotel": {
+    "n": 1956,
+    "median": 92.0,
+    "IQR": 57.4
+   }
+  },
+  "lead_time_by_target": {
+   "0": {
+    "n": 50577,
+    "median": 38.0,
+    "IQR": 103.0
+   },
+   "1": {
+    "n": 19207,
+    "median": 80.0,
+    "IQR": 126.0
+   }
+  }
+ },
+ "strategies": {
+  "train_missing": {
+   "children": 3,
+   "country": 364,
+   "agent": 9733
+  },
+  "test_rows_with_unseen_category": {
+   "hotel": 0,
+   "arrival_date_month": 0,
+   "meal": 0,
+   "country": 9,
+   "market_segment": 0,
+   "distribution_channel": 0,
+   "reserved_room_type": 0,
+   "deposit_type": 0,
+   "customer_type": 0,
+   "agent": 19
+  },
+  "unseen_examples": {
+   "country": [
+    "ASM",
+    "BDI",
+    "CYM",
+    "GGY",
+    "GUY",
+    "MMR",
+    "NPL",
+    "SLE"
+   ],
+   "agent": [
+    "144",
+    "267",
+    "280",
+    "285",
+    "289",
+    "301",
+    "333",
+    "352",
+    "367",
+    "397"
+   ]
+  },
+  "num_ranges": {
+   "lead_time": [
+    0.0,
+    737.0
+   ],
+   "stays_in_week_nights": [
+    0.0,
+    42.0
+   ],
+   "total_of_special_requests": [
+    0.0,
+    5.0
+   ],
+   "booking_changes": [
+    0.0,
+    18.0
+   ],
+   "children": [
+    0.0,
+    10.0
+   ],
+   "previous_cancellations": [
+    0.0,
+    26.0
+   ],
+   "previous_bookings_not_canceled": [
+    0.0,
+    72.0
+   ],
+   "days_in_waiting_list": [
+    0.0,
+    391.0
+   ],
+   "adr": [
+    -6.38,
+    5400.0
+   ],
+   "adults": [
+    0.0,
+    50.0
+   ],
+   "arrival_date_day_of_month": [
+    1.0,
+    31.0
+   ],
+   "stays_in_weekend_nights": [
+    0.0,
+    18.0
+   ],
+   "babies": [
+    0.0,
+    10.0
+   ]
+  }
+ },
+ "pipeline": {
+  "shape_train": [
+   69784,
+   192
+  ],
+  "shape_test": [
+   17446,
+   192
+  ],
+  "nan_train": 0,
+  "nan_test": 0,
+  "n_features_in": 25,
+  "blocks": {
+   "num_log": 8,
+   "num_lin": 5,
+   "bin": 2,
+   "cat_onehot": 177
+  },
+  "onehot_per_feature": {
+   "hotel": 2,
+   "arrival_date_month": 12,
+   "meal": 5,
+   "country": 170,
+   "market_segment": 8,
+   "distribution_channel": 5,
+   "reserved_room_type": 9,
+   "deposit_type": 3,
+   "customer_type": 4,
+   "agent": 316
+  },
+  "infrequent_per_feature": {
+   "hotel": 0,
+   "arrival_date_month": 0,
+   "meal": 0,
+   "country": 123,
+   "market_segment": 1,
+   "distribution_channel": 1,
+   "reserved_room_type": 1,
+   "deposit_type": 0,
+   "customer_type": 0,
+   "agent": 236
+  },
+  "train_num_mean_after": 0.0,
+  "test_num_mean_after": 0.013,
+  "feature_names": [
+   "num_log__lead_time",
+   "num_log__stays_in_week_nights",
+   "num_log__total_of_special_requests",
+   "num_log__booking_changes",
+   "num_log__children",
+   "num_log__previous_cancellations",
+   "num_log__previous_bookings_not_canceled",
+   "num_log__days_in_waiting_list",
+   "num_lin__adr",
+   "num_lin__adults",
+   "num_lin__arrival_date_day_of_month",
+   "num_lin__stays_in_weekend_nights",
+   "num_lin__babies",
+   "bin__is_repeated_guest",
+   "bin__has_company",
+   "cat__hotel_City Hotel",
+   "cat__hotel_Resort Hotel",
+   "cat__arrival_date_month_April",
+   "cat__arrival_date_month_August",
+   "cat__arrival_date_month_December",
+   "cat__arrival_date_month_February",
+   "cat__arrival_date_month_January",
+   "cat__arrival_date_month_July",
+   "cat__arrival_date_month_June",
+   "cat__arrival_date_month_March",
+   "cat__arrival_date_month_May",
+   "cat__arrival_date_month_November",
+   "cat__arrival_date_month_October",
+   "cat__arrival_date_month_September",
+   "cat__meal_BB",
+   "cat__meal_FB",
+   "cat__meal_HB",
+   "cat__meal_SC",
+   "cat__meal_Undefined",
+   "cat__country_AGO",
+   "cat__country_ARG",
+   "cat__country_AUS",
+   "cat__country_AUT",
+   "cat__country_BEL",
+   "cat__country_BGR",
+   "cat__country_BRA",
+   "cat__country_CHE",
+   "cat__country_CHL",
+   "cat__country_CHN",
+   "cat__country_CN",
+   "cat__country_COL",
+   "cat__country_CZE",
+   "cat__country_DEU",
+   "cat__country_DNK",
+   "cat__country_DZA",
+   "cat__country_ESP",
+   "cat__country_EST",
+   "cat__country_FIN",
+   "cat__country_FRA",
+   "cat__country_GBR",
+   "cat__country_GRC",
+   "cat__country_HRV",
+   "cat__country_HUN",
+   "cat__country_IND",
+   "cat__country_IRL",
+   "cat__country_IRN",
+   "cat__country_ISR",
+   "cat__country_ITA",
+   "cat__country_JPN",
+   "cat__country_KOR",
+   "cat__country_LTU",
+   "cat__country_LUX",
+   "cat__country_MAR",
+   "cat__country_MEX",
+   "cat__country_NLD",
+   "cat__country_NOR",
+   "cat__country_NZL",
+   "cat__country_POL",
+   "cat__country_PRT",
+   "cat__country_ROU",
+   "cat__country_RUS",
+   "cat__country_SWE",
+   "cat__country_TUR",
+   "cat__country_USA",
+   "cat__country_ZAF",
+   "cat__country_missing",
+   "cat__country_infrequent_sklearn",
+   "cat__market_segment_Aviation",
+   "cat__market_segment_Complementary",
+   "cat__market_segment_Corporate",
+   "cat__market_segment_Direct",
+   "cat__market_segment_Groups",
+   "cat__market_segment_Offline TA/TO",
+   "cat__market_segment_Online TA",
+   "cat__market_segment_infrequent_sklearn",
+   "cat__distribution_channel_Corporate",
+   "cat__distribution_channel_Direct",
+   "cat__distribution_channel_GDS",
+   "cat__distribution_channel_TA/TO",
+   "cat__distribution_channel_infrequent_sklearn",
+   "cat__reserved_room_type_A",
+   "cat__reserved_room_type_B",
+   "cat__reserved_room_type_C",
+   "cat__reserved_room_type_D",
+   "cat__reserved_room_type_E",
+   "cat__reserved_room_type_F",
+   "cat__reserved_room_type_G",
+   "cat__reserved_room_type_H",
+   "cat__reserved_room_type_infrequent_sklearn",
+   "cat__deposit_type_No Deposit",
+   "cat__deposit_type_Non Refund",
+   "cat__deposit_type_Refundable",
+   "cat__customer_type_Contract",
+   "cat__customer_type_Group",
+   "cat__customer_type_Transient",
+   "cat__customer_type_Transient-Party",
+   "cat__agent_1",
+   "cat__agent_10",
+   "cat__agent_11",
+   "cat__agent_115",
+   "cat__agent_118",
+   "cat__agent_12",
+   "cat__agent_13",
+   "cat__agent_132",
+   "cat__agent_134",
+   "cat__agent_138",
+   "cat__agent_14",
+   "cat__agent_142",
+   "cat__agent_143",
+   "cat__agent_146",
+   "cat__agent_147",
+   "cat__agent_15",
+   "cat__agent_152",
+   "cat__agent_156",
+   "cat__agent_159",
+   "cat__agent_16",
+   "cat__agent_168",
+   "cat__agent_17",
+   "cat__agent_171",
+   "cat__agent_175",
+   "cat__agent_177",
+   "cat__agent_185",
+   "cat__agent_19",
+   "cat__agent_191",
+   "cat__agent_195",
+   "cat__agent_196",
+   "cat__agent_2",
+   "cat__agent_20",
+   "cat__agent_21",
+   "cat__agent_22",
+   "cat__agent_220",
+   "cat__agent_229",
+   "cat__agent_240",
+   "cat__agent_241",
+   "cat__agent_242",
+   "cat__agent_243",
+   "cat__agent_250",
+   "cat__agent_251",
+   "cat__agent_26",
+   "cat__agent_27",
+   "cat__agent_273",
+   "cat__agent_28",
+   "cat__agent_29",
+   "cat__agent_298",
+   "cat__agent_3",
+   "cat__agent_30",
+   "cat__agent_314",
+   "cat__agent_315",
+   "cat__agent_330",
+   "cat__agent_339",
+   "cat__agent_34",
+   "cat__agent_36",
+   "cat__agent_37",
+   "cat__agent_38",
+   "cat__agent_39",
+   "cat__agent_40",
+   "cat__agent_410",
+   "cat__agent_42",
+   "cat__agent_464",
+   "cat__agent_5",
+   "cat__agent_52",
+   "cat__agent_6",
+   "cat__agent_69",
+   "cat__agent_7",
+   "cat__agent_75",
+   "cat__agent_8",
+   "cat__agent_83",
+   "cat__agent_85",
+   "cat__agent_86",
+   "cat__agent_89",
+   "cat__agent_9",
+   "cat__agent_94",
+   "cat__agent_95",
+   "cat__agent_96",
+   "cat__agent_98",
+   "cat__agent_missing",
+   "cat__agent_infrequent_sklearn"
+  ]
+ },
+ "pca": {
+  "pc1": 0.1291,
+  "pc2": 0.0824,
+  "pc1_pc2": 0.2115,
+  "n_for_80": 16,
+  "n_for_95": 40,
+  "top_loadings": {
+   "PC1": {
+    "num_log__lead_time": 0.408,
+    "num_lin__adults": 0.387,
+    "num_log__stays_in_week_nights": 0.362,
+    "num_lin__adr": 0.35,
+    "num_log__previous_bookings_not_canceled": -0.348,
+    "num_lin__stays_in_weekend_nights": 0.303,
+    "num_log__previous_cancellations": -0.21,
+    "num_log__children": 0.182
+   },
+   "PC2": {
+    "num_log__stays_in_week_nights": 0.43,
+    "num_lin__stays_in_weekend_nights": 0.416,
+    "num_lin__adr": -0.405,
+    "num_log__lead_time": 0.333,
+    "num_log__children": -0.279,
+    "num_log__total_of_special_requests": -0.211,
+    "num_log__days_in_waiting_list": 0.193,
+    "num_lin__adults": -0.185
+   }
+  }
+ },
+ "projection_knn15_acc": {
+  "pca_2d": 0.705,
+  "tsne_30": 0.7596,
+  "tsne_100": 0.765,
+  "umap_15": 0.7622,
+  "umap_100": 0.7496,
+  "full_192d": 0.7868,
+  "majority": 0.7248
+ },
+ "umap15_groups": [
+  {
+   "group": 0,
+   "n": 3303,
+   "cancel_rate": 0.282,
+   "centre": [
+    10.9,
+    6.7
+   ],
+   "hotel": "City Hotel (62%)",
+   "market_segment": "Online TA (71%)",
+   "deposit_type": "No Deposit (99%)",
+   "customer_type": "Transient (79%)",
+   "distribution_channel": "TA/TO (96%)",
+   "is_repeated_guest": 0.008,
+   "has_company": 0.02,
+   "required_car_parking_spaces > 0": 0.065,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.0,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.15
+  },
+  {
+   "group": 4,
+   "n": 657,
+   "cancel_rate": 0.126,
+   "centre": [
+    17.5,
+    8.1
+   ],
+   "hotel": "City Hotel (52%)",
+   "market_segment": "Direct (77%)",
+   "deposit_type": "No Deposit (99%)",
+   "customer_type": "Transient (89%)",
+   "distribution_channel": "Direct (81%)",
+   "is_repeated_guest": 0.027,
+   "has_company": 0.174,
+   "required_car_parking_spaces > 0": 0.146,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.018,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.275
+  },
+  {
+   "group": 2,
+   "n": 417,
+   "cancel_rate": 0.348,
+   "centre": [
+    7.6,
+    18.0
+   ],
+   "hotel": "City Hotel (59%)",
+   "market_segment": "Online TA (75%)",
+   "deposit_type": "No Deposit (100%)",
+   "customer_type": "Transient (91%)",
+   "distribution_channel": "TA/TO (83%)",
+   "is_repeated_guest": 0.007,
+   "has_company": 0.005,
+   "required_car_parking_spaces > 0": 0.146,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 1.0,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.201
+  },
+  {
+   "group": 1,
+   "n": 267,
+   "cancel_rate": 0.408,
+   "centre": [
+    16.3,
+    4.8
+   ],
+   "hotel": "City Hotel (97%)",
+   "market_segment": "Online TA (88%)",
+   "deposit_type": "No Deposit (100%)",
+   "customer_type": "Transient (97%)",
+   "distribution_channel": "TA/TO (96%)",
+   "is_repeated_guest": 0.004,
+   "has_company": 0.0,
+   "required_car_parking_spaces > 0": 0.03,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.004,
+   "days_in_waiting_list > 0": 0.004,
+   "booking_changes > 0": 0.142
+  },
+  {
+   "group": 6,
+   "n": 134,
+   "cancel_rate": 0.037,
+   "centre": [
+    4.6,
+    5.4
+   ],
+   "hotel": "Resort Hotel (64%)",
+   "market_segment": "Corporate (54%)",
+   "deposit_type": "No Deposit (100%)",
+   "customer_type": "Transient (93%)",
+   "distribution_channel": "Corporate (54%)",
+   "is_repeated_guest": 0.813,
+   "has_company": 0.634,
+   "required_car_parking_spaces > 0": 0.216,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.007,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.239
+  },
+  {
+   "group": 3,
+   "n": 87,
+   "cancel_rate": 0.701,
+   "centre": [
+    -4.6,
+    12.2
+   ],
+   "hotel": "City Hotel (70%)",
+   "market_segment": "Corporate (30%)",
+   "deposit_type": "No Deposit (90%)",
+   "customer_type": "Transient (67%)",
+   "distribution_channel": "TA/TO (54%)",
+   "is_repeated_guest": 0.425,
+   "has_company": 0.322,
+   "required_car_parking_spaces > 0": 0.069,
+   "previous_cancellations > 0": 1.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.034,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.115
+  },
+  {
+   "group": 5,
+   "n": 53,
+   "cancel_rate": 0.34,
+   "centre": [
+    12.2,
+    -9.3
+   ],
+   "hotel": "City Hotel (83%)",
+   "market_segment": "Groups (47%)",
+   "deposit_type": "No Deposit (72%)",
+   "customer_type": "Transient-Party (72%)",
+   "distribution_channel": "TA/TO (89%)",
+   "is_repeated_guest": 0.0,
+   "has_company": 0.038,
+   "required_car_parking_spaces > 0": 0.0,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 0.0,
+   "children > 0": 0.0,
+   "days_in_waiting_list > 0": 1.0,
+   "booking_changes > 0": 0.377
+  },
+  {
+   "group": 7,
+   "n": 49,
+   "cancel_rate": 0.143,
+   "centre": [
+    -5.5,
+    2.4
+   ],
+   "hotel": "Resort Hotel (61%)",
+   "market_segment": "Online TA (41%)",
+   "deposit_type": "No Deposit (100%)",
+   "customer_type": "Transient (90%)",
+   "distribution_channel": "TA/TO (67%)",
+   "is_repeated_guest": 0.0,
+   "has_company": 0.0,
+   "required_car_parking_spaces > 0": 0.204,
+   "previous_cancellations > 0": 0.0,
+   "babies > 0": 1.0,
+   "children > 0": 0.163,
+   "days_in_waiting_list > 0": 0.0,
+   "booking_changes > 0": 0.531
+  }
+ ],
+ "umap15_noise_points": 33,
+ "rate_if_positive": {
+  "required_car_parking_spaces": {
+   "rate": 0.0,
+   "n": 5865
+  },
+  "previous_cancellations": {
+   "rate": 0.6613,
+   "n": 1367
+  },
+  "babies": {
+   "rate": 0.1853,
+   "n": 734
+  },
+  "children": {
+   "rate": 0.364,
+   "n": 6701
+  },
+  "days_in_waiting_list": {
+   "rate": 0.3368,
+   "n": 677
+  },
+  "booking_changes": {
+   "rate": 0.1552,
+   "n": 12652
+  },
+  "total_of_special_requests": {
+   "rate": 0.2189,
+   "n": 34781
+  }
+ }
+}
