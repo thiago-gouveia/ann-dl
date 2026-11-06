@@ -15,5 +15,5 @@ the code that was actually run (`code/`) and the figures it produced (`figures/`
 - [x] [Data](exercises/data/index.md) — data generation, geometry of spread, and preprocessing for a tanh network
 - [x] [Perceptron](exercises/perceptron/index.md) — a perceptron written from scratch on separable and on overlapping data, with the pocket algorithm
 - [x] [MLP](exercises/mlp/index.md) — a multi-layer perceptron written from scratch: backprop by hand, binary and multi-class tasks, and a depth comparison
-- [ ] VAE
+- [x] [VAE](exercises/vae/index.md) — a variational autoencoder on MNIST with both loss terms logged, and a 2-D latent space you can see
 - [ ] [Projects](projects/index.md)

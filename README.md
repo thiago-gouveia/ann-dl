@@ -7,6 +7,7 @@ Reports for the Insper ANN-DL course, published at <https://thiago-gouveia.githu
 | Data | [docs/exercises/data/index.md](docs/exercises/data/index.md) | [docs/exercises/data/code/data.py](docs/exercises/data/code/data.py) |
 | Perceptron | [docs/exercises/perceptron/index.md](docs/exercises/perceptron/index.md) | [docs/exercises/perceptron/code/perceptron.py](docs/exercises/perceptron/code/perceptron.py) |
 | MLP | [docs/exercises/mlp/index.md](docs/exercises/mlp/index.md) | [docs/exercises/mlp/code/mlp.py](docs/exercises/mlp/code/mlp.py) |
+| VAE | [docs/exercises/vae/index.md](docs/exercises/vae/index.md) | [docs/exercises/vae/code/vae.py](docs/exercises/vae/code/vae.py) |
 
 ## Setup
 
@@ -14,6 +15,12 @@ Reports for the Insper ANN-DL course, published at <https://thiago-gouveia.githu
 python3 -m venv env
 source ./env/bin/activate
 python3 -m pip install -r requirements.txt --upgrade
+```
+
+The VAE exercise also needs PyTorch and SciPy (not needed to build the site):
+
+```shell
+python3 -m pip install torch torchvision scipy
 ```
 
 ## Re-running an exercise
